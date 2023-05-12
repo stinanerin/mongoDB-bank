@@ -25,52 +25,86 @@ app.get("/api/accounts", async (req, res) => {
     try {
         const response = await accountCollection.find({}).toArray();
         res.json({
-            success: true,
+            acknowledged: true,
             accounts: response,
         });
     } catch (err) {
         console.log(err);
         res.status(400).json({
-            success: false,
+            acknowledged: false,
             error: err.message,
         });
     }
-});
+})
+
 app.post("/api/accounts", async (req, res) => {
     console.log("req.body", req.body);
     try {
         await accountCollection.insertOne(req.body);
         res.json({
-            success: true,
+            acknowledged: true,
             account: req.body,
         });
     } catch (err) {
         console.log(err);
         res.status(400).json({
-            success: false,
+            acknowledged: false,
             error: err.message,
         });
     }
-});
+})
+
 app.delete("/api/accounts/:id", async (req, res) => {
     try {
         const response = await accountCollection.deleteOne({
             _id: new ObjectId(req.params.id),
-        })
+        });
 
-        if(response.deletedCount === 0) {
+        if (response.deletedCount === 0) {
             throw new Error("No account found with the provided ID");
-        } 
+        }
 
         res.json({
-            success: true,
-            message: "Account successfully deleted",
+            acknowledged: true,
+            message: `Account #${req.params.id} successfully deleted`,
         });
-        
     } catch (err) {
         console.log(err);
         res.status(400).json({
-            success: false,
+            acknowledged: false,
+            error: err.message,
+        });
+    }
+})
+
+app.put("/api/accounts/:id", async (req, res) => {
+    //todo! Prevent user of api to create new keys
+    try {
+        const updatedData = { $set: {} };
+        const keys = Object.keys(req.body);
+    
+        keys.forEach((key) => {
+            /* Go in update objects $set-key property,
+            set it to the value of req.body[key] */
+            updatedData.$set[key] = req.body[key];
+        });
+    
+        const response = await accountCollection.updateOne(
+            { _id: new ObjectId(req.params.id) },
+            updatedData
+        );
+
+        if (response.acknowledged && response.modifiedCount === 0) {
+           throw new Error(
+               "No modified account data was provided."
+           )
+        } else if (response.acknowledged && response.modifiedCount === 1) {
+            res.json(response);
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            acknowledged: false,
             error: err.message,
         });
     }

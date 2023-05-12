@@ -5,24 +5,40 @@ const port = 3000;
 
 // Mongo config
 import { MongoClient, ObjectId } from "mongodb";
+// ObjectId is needed for accessing specific documents in mongoDB by ID
 const client = new MongoClient("mongodb://localhost:27017");
 await client.connect();
 const db = client.db("bank");
 const accountCollection = db.collection("accounts");
 
-
 // Middlewares
 app.use(express.json());
-/* express.json(): handles JSON data in POST and PUT routes,
-similar to how middleware is needed to handle form data and URL-encoded data. */
+/* express.json(): 
+    handles JSON data in POST and PUT routes,
+    similar to how middleware is needed to handle form data and URL-encoded data. */
 app.use(express.static("public"));
 
-
 // Routes
-app.get("/hello", (req, res) => {
-    res.send("hello"); // Sends a "hello" response to the client
-})
 
+app.post("/api/accounts", async (req, res) => {
+    console.log("req.body", req.body);
+    try {
+        const response = await accountCollection.insertOne(req.body);
+        console.log("response", response);
+      
+        res.json({
+            success: true,
+            list: req.body,
+        });
+        
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            success: false,
+            error: err.message,
+        });
+    }
+});
 
 // Listens to the Express.js server for incoming HTTP requests on the specified port
 app.listen(port, (err) => {

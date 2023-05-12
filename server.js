@@ -78,7 +78,10 @@ app.delete("/api/accounts/:id", async (req, res) => {
 })
 
 app.put("/api/accounts/:id", async (req, res) => {
-    //todo! Prevent user of api to create new keys
+    /* todo! 
+    * Prevent user of api to create new keys
+    * Return the updated data if succesfull update?
+    */
     try {
         const updatedData = { $set: {} };
         const keys = Object.keys(req.body);

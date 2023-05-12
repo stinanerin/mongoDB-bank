@@ -10,3 +10,10 @@
     align-items: $align;
     flex-wrap: $wrap;
 }
+
+@mixin diffused-gradient($deg, $clr-1, $clr-2) {
+    /* fallback for old browsers */
+    background: $p-white ;
+    background: linear-gradient($deg, $clr-1 0%,  $clr-2 100%);   
+    background: -webkit-linear-gradient($deg, $clr-1 0%,  $clr-2 100%);   
+}

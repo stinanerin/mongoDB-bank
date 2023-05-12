@@ -1,0 +1,9 @@
+.header {
+    @include diffused-gradient(270deg, rgba(13, 222, 58, 0.344), rgba(255, 255, 255, 0));
+    background-color: $primary;
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid $p-white;
+    * {
+        color: $p-white;
+    }
+}

@@ -1,22 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bank</title>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Bank</title>
 
-    <!-- icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- css -->
-    <link rel="stylesheet" href="/styles/style.css"/>
-    <!-- js -->
+        <!-- icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- css -->
+        <link rel="stylesheet" href="/styles/style.css"/>
+        <!-- axios -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <!-- js -->
+        <script src="/js/api.js" defer></script>
+        <script src="/js/account.js" defer></script>
+    </head>
 
-</head>
+    <body>
 
-<body>
+        <header>
+            <h1>Bank</h1>
+            
+        </header>
 
-    <h1>Bank</h1>
-    
-</body>
-</html>
+        <main>
+
+            <div class="form-wrapper">
+                <h2></h2>
+                
+                <form action="" class="form" id="createAccount" >
+
+                    <div class="form-group">
+                        <label for="accountName" class="form-label">Choose name for account<sup>*</sup></label>
+                        <input class="form-control" type="text" id="accountName" placeholder="Enter account name" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accountAmount" class="form-label">Amount<sup>*</sup> </label>
+                        <input class="form-control" type="number" id="accountAmount" placeholder="Enter the amount" required />
+                    </div>
+                    <button class="btn">Create account</button>
+                    
+                </form>
+            </div>
+            
+        </main>
+
+        <footer>
+            
+        </footer>
+
+        
+        
+    </body>
+    </html>

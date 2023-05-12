@@ -1,3 +1,61 @@
-body {
-    background-color: pink;
+// * {
+//     outline: 1px solid pink;
+// }
+
+*, *:after, *:before {
+    box-sizing: border-box;
 }
+
+// text
+h1, h2, h3, h4, h5, h6 {
+    font-family: $heading-primary;
+    margin: 0;
+    padding: 0;
+    color: $text;
+    &:not(h1) {
+        margin-bottom: 0.5em;
+    }
+}
+
+body {
+    font-family: $body;
+    color:  $text;
+}
+
+.btn {
+    border: 1px solid black;
+    color: $p-white;
+    background-color: $p-black;
+    padding: 0.5rem 1rem;
+    font-family: $body-b;
+    &:hover {
+        color: $p-black;
+        background-color: $p-white;
+    }
+}
+
+input, input:active, input:focus, 
+input:-webkit-autofill, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active, input[data-autocompleted], select{
+    // Reset
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    &:not(select) {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    font-family: $body;
+    color: $text;
+    font-size: 0.8rem;
+    &::placeholder {
+        font-family: $body;
+        color: $text;
+    }
+    &:not(select) {
+        padding: 0.5rem 1.5rem;
+    }
+}
+

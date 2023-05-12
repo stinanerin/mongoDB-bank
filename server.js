@@ -20,17 +20,33 @@ app.use(express.static("public"));
 
 // Routes
 
+// Get all
+app.get("/api/accounts", async (req, res) => {
+    try {
+        const response = await accountCollection.find({}).toArray();
+        console.log("response", response);
+        res.json({
+            success: true,
+            accounts: response,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            success: false,
+            error: err.message,
+        });
+    }
+});
+
+// Add one
 app.post("/api/accounts", async (req, res) => {
     console.log("req.body", req.body);
     try {
-        const response = await accountCollection.insertOne(req.body);
-        console.log("response", response);
-      
+        await accountCollection.insertOne(req.body);
         res.json({
             success: true,
-            list: req.body,
+            account: req.body,
         });
-        
     } catch (err) {
         console.log(err);
         res.status(400).json({

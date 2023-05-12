@@ -7,14 +7,18 @@ $lg: "width >= 992px";
 $xl: "width >= 1200px";
 
 
-// Colors
+// -------------- Colors --------------
 $p-black: hsl(0, 0%, 0%);
 $p-white: hsl(0, 0%, 100%);
 
 $primary: #88A17B;
 
-
 // Text
-
 $text: $p-black;
 
+// -------------- Fonts --------------
+$heading-primary: 'Jost', sans-serif;
+// $heading-secondary: monospace, sans-serif;
+$body-b: AnonymousPro-Bold;
+$body-i: AnonymousPro-Italic;
+$body: AnonymousPro;

@@ -1,0 +1,50 @@
+.form-label {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid hsl(0deg, 0%, 0%);
+    font-family: $body-b;
+    font-size: 0.9rem;
+}
+
+input, input:active, input:focus, 
+input:-webkit-autofill, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active, input[data-autocompleted] {
+    background-color: transparent;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $text;
+    outline: none;
+
+    font-size: 0.8rem;
+    font-family: $body;
+
+
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    line-height: 1.5;
+}
+
+.form {
+    width: min(100%, 350px);
+}
+
+.form-wrapper {
+    @include flex(column, center, center);
+    width: 100%;
+}
+
+.form-text {
+    margin-top: 0.25rem;
+    font-size: .7em;
+    color: #838586;
+}

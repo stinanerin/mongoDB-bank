@@ -1,3 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@font-face {
+  font-family: AnonymousPro;
+  src: url("../assets/fonts/AnonymousPro-Regular.ttf");
+}
+@font-face {
+  font-family: AnonymousPro-Bold;
+  src: url("../assets/fonts/AnonymousPro-Bold.ttf");
+}
+@font-face {
+  font-family: AnonymousPro-Italic;
+  src: url("../assets/fonts/AnonymousPro-Italic.ttf");
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Jost", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: hsl(0deg, 0%, 0%);
+}
+h1:not(h1), h2:not(h1), h3:not(h1), h4:not(h1), h5:not(h1), h6:not(h1) {
+  margin-bottom: 0.5em;
+}
+
 body {
-  background-color: pink;
+  font-family: AnonymousPro;
+  color: hsl(0deg, 0%, 0%);
+}
+
+.btn {
+  border: 1px solid black;
+  color: hsl(0deg, 0%, 100%);
+  background-color: hsl(0deg, 0%, 0%);
+  padding: 0.5rem 1rem;
+  font-family: AnonymousPro-Bold;
+}
+.btn:hover {
+  color: hsl(0deg, 0%, 0%);
+  background-color: hsl(0deg, 0%, 100%);
+}
+
+input, input:active, input:focus,
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active, input[data-autocompleted], select {
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  font-family: AnonymousPro;
+  color: hsl(0deg, 0%, 0%);
+  font-size: 0.8rem;
+}
+input:not(select), input:active:not(select), input:focus:not(select),
+input:-webkit-autofill:not(select),
+input:-webkit-autofill:focus:not(select),
+input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select), select:not(select) {
+  -webkit-appearance: none;
+  appearance: none;
+}
+input::placeholder, input:active::placeholder, input:focus::placeholder,
+input:-webkit-autofill::placeholder,
+input:-webkit-autofill:focus::placeholder,
+input:-webkit-autofill:active::placeholder, input[data-autocompleted]::placeholder, select::placeholder {
+  font-family: AnonymousPro;
+  color: hsl(0deg, 0%, 0%);
+}
+input:not(select), input:active:not(select), input:focus:not(select),
+input:-webkit-autofill:not(select),
+input:-webkit-autofill:focus:not(select),
+input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select), select:not(select) {
+  padding: 0.5rem 1.5rem;
+}
+
+.form-label {
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid hsl(0deg, 0%, 0%);
+  font-family: AnonymousPro-Bold;
+  font-size: 0.9rem;
+}
+
+input, input:active, input:focus,
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active, input[data-autocompleted] {
+  background-color: transparent;
+  padding: 0.5rem 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid hsl(0deg, 0%, 0%);
+  outline: none;
+  font-size: 0.8rem;
+  font-family: AnonymousPro;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  line-height: 1.5;
+}
+
+.form {
+  width: min(100%, 350px);
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: no-wrap;
+  width: 100%;
+}
+
+.form-text {
+  margin-top: 0.25rem;
+  font-size: 0.7em;
+  color: #838586;
 }/*# sourceMappingURL=style.css.map */

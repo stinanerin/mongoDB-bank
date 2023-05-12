@@ -1,37 +1,23 @@
 
 const renderAccList = async() => {
     const accArr = await fetchData("/api/accounts");
+    console.log(accArr);
 
     if (accArr) {
-        const ul = 
+
+        const ul = createElement("ul" )
+        document.body.append(ul)
+        console.log(ul);
+        accArr.forEach(({name, amount, _id}) => {
+            const li = createElement("li")
+            li.innerHTML = `Account# ${_id} <br> ${name} <br> ${amount}`;
+            ul.append(li)
+        });
 
     } else {
-        // No registered accounts
+        // todo! No registered accounts
     }
-    console.log(accArr);
 }
 
 renderAccList()
 
-/* 
-<ul class="members-list">
-                <% if (errorMessage) { %>
-                    <div class="error-message">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        <%= errorMessage %>
-                    </div>
-                <% } %>
-                <% if (members.length > 0) { %>
-                <!-- create a form for each book, which sends a DELETE request to the server when submitted -->
-                    <% members.forEach(({_id, name, email, phone_number, registered, optional}) => { %>
-                            <li>
-                                <a href="/member/<%=_id%>">
-                                    <i class="fa-solid fa-user"></i>
-                                    <%= name %>
-                                </a>
-                            </li>
-                
-                    <% }); %>
-                <% } %>
-            </ul>
-*/

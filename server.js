@@ -3,7 +3,11 @@ import express from "express";
 const app = express();
 const port = 3000;
 
-
+// Mongo config
+const client = new MongoClient("mongodb://localhost:27017");
+await client.connect();
+const db = client.db("bank");
+const accountCollection = db.collection("accounts");
 
 
 // Middlewares

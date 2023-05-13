@@ -19,12 +19,24 @@
         <script src="/js/list.js" defer></script>
         <script src="/js/profilePage.js" defer></script>
         <script src="/js/routing.js" defer></script>
+
+        <!--!NYTT:  Type module för importer -->
+        <script type="module" src="/js/index.js" defer ></script>
+
+
     </head>
 
     <body>
 
         <header class="header">
-            <h1>Bank</h1>
+            <!-- <h1>Bank</h1> -->
+
+            <!-- data-link, används för api -->
+        <nav class="nav">
+            <a href="/" class="nav__link" data-link><h1>Bank</h1></a>
+            <a href="/accounts" class="nav__link" data-link>Accounts</a>
+            <a href="/accounts/:id" class="nav__link" data-link>Account</a>
+        </nav>
             
         </header>
 
@@ -57,5 +69,7 @@
 
         
         
+
+
     </body>
     </html>

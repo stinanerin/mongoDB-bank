@@ -51,7 +51,7 @@ const router = async () => {
 };
 
 // Adds an event listener for when the user navigates using browser history buttons, and calls the router function.
-window.addEventListener("popstate", router())
+window.addEventListener("popstate", router)
 
 // Listens to DOM loads
 document.addEventListener("DOMContentLoaded", () => {

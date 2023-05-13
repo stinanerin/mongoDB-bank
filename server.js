@@ -16,7 +16,7 @@ app.use(express.json());
 /* express.json(): 
     handles JSON data in POST and PUT routes,
     similar to how middleware is needed to handle form data and URL-encoded data. */
-app.use(express.static("public"));
+app.use(express.static("frontend/public"));
 
 // ------------------- Routes -------------------
 

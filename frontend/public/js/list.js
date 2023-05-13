@@ -11,10 +11,10 @@ const renderAccList = async() => {
         accArr.forEach(({name, amount, _id}) => {
             const li = createElement("li")
             const a = createElement("a")
-            a.href=`/profile/${_id}}`
-            li.innerHTML = `Account# ${_id} <br> ${name} <br> ${amount}`;
-            a.append(li)
-            ul.append(a)
+            a.href=`/profile/${_id}`
+            a.innerHTML = `Account# ${_id} <br> ${name} <br> ${amount}`;
+            li.append(a)
+            ul.append(li)
         });
 
     } else {

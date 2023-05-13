@@ -54,6 +54,26 @@ app.post("/api/accounts", async (req, res) => {
     }
 })
 
+app.get("/api/accounts/:id", async (req, res) => {
+    try {
+        const response = await accountCollection.findOne({
+            _id: new ObjectId(req.params.id),
+        });
+        console.log(response);
+        res.json({
+            acknowledged: true,
+            accounts: response,
+        });
+    } catch (error) {
+        console.log(err);
+        res.status(400).json({
+            acknowledged: false,
+            error: err.message,
+        });
+    }
+});
+
+
 app.delete("/api/accounts/:id", async (req, res) => {
     try {
         const response = await accountCollection.deleteOne({

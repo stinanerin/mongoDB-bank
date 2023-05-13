@@ -12,9 +12,9 @@ const renderAccList = async() => {
             const li = createElement("li")
             const a = createElement("a")
             a.href=`/profile/${_id}`
-            li.innerHTML = `Account# ${_id} <br> ${name} <br> ${amount}`;
-            a.append(li)
-            ul.append(a)
+            a.innerHTML = `Account# ${_id} <br> ${name} <br> ${amount}`;
+            li.append(a)
+            ul.append(li)
         });
 
     } else {

@@ -54,6 +54,11 @@ const router = async () => {
 
     // Set the current views HTML as the main div:s HTML
     document.querySelector("#app").innerHTML = await currentView.getHtml();
+
+    // If addEventListener method exists on currentView instance - invoke it
+    if (currentView.addEventListeners) {
+        currentView.addEventListeners();
+    }
 };
 
 // Adds an event listener for when the user navigates using browser history buttons, and calls the router function.

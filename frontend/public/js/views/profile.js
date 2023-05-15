@@ -20,8 +20,17 @@ export default class extends AbstractView {
             <div>
                 <h3>Account options:</h3>
                 <div>
-                    <button class="btn" id="deposit" aria-label="Make a deposit">Deposit</button>
-                    <button class="btn" id="withdraw" aria-label="Make a withdrawal">Withdraw</button>
+                    <form id="deposit">
+                        <h4>Deposit</h4>
+                        <input type="num" placeholder="Enter amount to deposit" />
+                        <button class="btn" aria-label="Make a deposit">Deposit</button>
+                    </form>
+
+                    <form id="withdraw">
+                        <h4>Withdraw</h4>
+                        <input type="num" placeholder="Enter amount to withdraw" />
+                        <button class="btn" aria-label="Make a withdrawal">Withdraw</button>
+                    </form>
                 </div>
             </div>`;
             return div.outerHTML;
@@ -29,4 +38,10 @@ export default class extends AbstractView {
             // todo! Person not found
         }
     }
+    addEventListeners() {
+        document.querySelector("#deposit").addEventListener("submit", () => {
+
+        })
+    }
+
 }

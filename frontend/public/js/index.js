@@ -1,25 +1,25 @@
 //! new
 
+import home from "./views/home.js";
+
 // Navigates to a specific url and updates the history
-const navigateTo = url => {
-
-    history.pushState(null, null, url)
-    router()
-}
-
+const navigateTo = (url) => {
+    history.pushState(null, null, url);
+    router();
+};
 
 // Asynchronous function that loads content for each view/route/path
 const router = async () => {
     const routes = [
-        // Root path - view:
-        { path: "/", view: () => console.log("viewing home") },
+        // Root path - view: home class reference
+        { path: "/", view: home },
         // View all accounts:
         { path: "/accounts", view: () => console.log("viewing accounts") },
 
         // View a specific account by id:
         {
-            path: "/accounts/:id",
-            view: () => console.log("viewing accounts/:id"),
+            path: "/create-account",
+            view: () => console.log("viewing create-account"),
         },
     ];
 
@@ -42,16 +42,21 @@ const router = async () => {
 
     // If match is undefined - navigate to home page
     if (!match) {
-        match = { 
-            route: routes[0], 
-            isMatch: true
+        match = {
+            route: routes[0],
+            isMatch: true,
         };
     }
-    console.log("match", match.route.view());
+    // Creates new isntance of the view at the match route
+    const currentView = new match.route.view();
+    console.log("currentView", currentView);
+
+    // Set the current views HTML as the main div:s HTML
+    document.querySelector("#app").innerHTML = await currentView.getHtml();
 };
 
 // Adds an event listener for when the user navigates using browser history buttons, and calls the router function.
-window.addEventListener("popstate", router)
+window.addEventListener("popstate", router);
 
 // Listens to DOM loads
 document.addEventListener("DOMContentLoaded", () => {

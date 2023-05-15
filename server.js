@@ -1,9 +1,10 @@
 // ------------------- Setup express -------------------
 import express from "express";
+
+
 //! nytt
 import path from "path";
 const __dirname = path.resolve();
-
 //! nytt
 
 
@@ -29,15 +30,7 @@ app.use(express.json());
 
 app.use(express.static("frontend/public"));
 
-//! Nytt
-app.get("/*", (req, res) => {
-    // oavsett pathen vi skcikar till servern - gå tillbaka till index.html
-    // nödvändigt fö SAP
-    // alltså samma html fil, även om pathen är annorulunda
-    res.sendFile(path.join(__dirname, "frontend", "public", "index.html"));
-});
 
-//! Nytt
 
 // ------------------- Routes -------------------
 
@@ -152,6 +145,20 @@ app.put("/api/accounts/:id", async (req, res) => {
         });
     }
 });
+
+
+
+//! Nytt
+app.get("/*", (req, res) => {
+    // oavsett pathen vi skcikar till servern - gå tillbaka till index.html
+    // nödvändigt fö SAP
+    // alltså samma html fil, även om pathen är annorulunda
+    res.sendFile(path.join(__dirname, "frontend", "public", "index.html"));
+});
+
+//! Nytt
+
+
 
 // Listens to the Express.js server for incoming HTTP requests on the specified port
 app.listen(PORT, (err) => {

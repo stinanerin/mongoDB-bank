@@ -7,9 +7,8 @@ export default class extends AbstractView {
     }
     async getHtml() {
         const id = window.location.href.split("/").at(-1);
-        
+
         const profile = await fetchData(`/api/accounts/${id}`);
-        console.log(profile);
 
         if (profile) {
             const div = createElement("div");

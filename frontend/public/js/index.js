@@ -7,10 +7,7 @@ import profile from "./views/profile.js";
 const navigateTo = (url) => {
     history.pushState(null, null, url);
     router();
-};
-
-console.log("ES6 module support:", "import" in window);
-
+}
 
 
 // Asynchronous function that loads content for each view/route/path
@@ -49,23 +46,25 @@ const router = async () => {
         }
     })
 
-    console.log("potentialMatches", potentialMatches);
+    // console.log("potentialMatches", potentialMatches);
 
     // Finds the route with the isMatch: true key/value pair
     let match = potentialMatches.find(
         (potentialMatch) => potentialMatch.isMatch
-    );
+    )
 
     // If match is undefined - navigate to home page
-    // if (!match) {
-    //     match = {
-    //         route: routes[0],
-    //         isMatch: true,
-    //     };
-    // }
+    //! maybe remove
+    if (!match) {
+        match = {
+            route: routes[0],
+            isMatch: true,
+        }
+    }
+
     // Creates new instance of the view: importedClass - at the match route
     const currentView = new match.route.view();
-    console.log("currentView", match.route);
+    // console.log("currentView", match.route);
 
     // Set the current views HTML as the main div:s HTML
     document.querySelector("#app").innerHTML = await currentView.getHtml();
@@ -74,7 +73,7 @@ const router = async () => {
     if (currentView.addEventListeners) {
         currentView.addEventListeners();
     }
-};
+}
 
 // Adds an event listener for when the user navigates using browser history buttons, and calls the router function.
 window.addEventListener("popstate", router);
@@ -84,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("click", (e) => {
         // Does the link have the [data-link] attribute
         if (e.target.matches("[data-link]")) {
-            console.log(e.target);
             // Prevent following the link and site refresh
             e.preventDefault();
             navigateTo(e.target.href);

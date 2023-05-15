@@ -13,12 +13,11 @@ const navigateTo = (url) => {
 // Asynchronous function that loads content for each view/route/path
 const router = async () => {
     const routes = [
-        // Root path - view: home class reference
+        // Root route - view: home class reference
         { path: "/", view: home },
-        // View all accounts:
+        // Accounts route - View all accounts:
         { path: "/accounts", view: accounts },
-
-        // View a specific account by id:
+        // Create Account route - View form for creating an account:
         {
             path: "/create-account",
             view: createAccount,

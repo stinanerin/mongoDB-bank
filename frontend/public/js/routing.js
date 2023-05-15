@@ -8,5 +8,5 @@ document.addEventListener("click", (e) => {
         console.log(id);
         renderProfile(id);
     }
-});
+})
 

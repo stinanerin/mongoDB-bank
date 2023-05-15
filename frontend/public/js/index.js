@@ -1,14 +1,17 @@
-//! new
-
 import home from "./views/home.js";
 import createAccount from "./views/createAccount.js";
 import accounts from "./views/accounts.js";
+import profile from "./views/profile.js";
 
 // Navigates to a specific url and updates the history
 const navigateTo = (url) => {
     history.pushState(null, null, url);
     router();
 };
+
+console.log("ES6 module support:", "import" in window);
+
+
 
 // Asynchronous function that loads content for each view/route/path
 const router = async () => {
@@ -22,17 +25,29 @@ const router = async () => {
             path: "/create-account",
             view: createAccount,
         },
+        {
+            path: "/profile",
+            view: profile,
+        },
     ];
 
     // Test each route for potential match
     // Loops through each route and returns an object with the route and a boolean isMatch value
     const potentialMatches = routes.map((route) => {
-        return {
-            route: route,
-            // Does the current url location match a specified route
-            isMatch: location.pathname === route.path,
-        };
-    });
+        if (location.pathname.split("/")[1] === route.path.split("/")[1]) {
+            return {
+                route: route,
+                // Does the current url location match a specified route
+                isMatch: true,
+            };
+        } else {
+            return {
+                route: route,
+                // Does the current url location match a specified route
+                isMatch: location.pathname === route.path,
+            }
+        }
+    })
 
     console.log("potentialMatches", potentialMatches);
 
@@ -42,15 +57,15 @@ const router = async () => {
     );
 
     // If match is undefined - navigate to home page
-    if (!match) {
-        match = {
-            route: routes[0],
-            isMatch: true,
-        };
-    }
-    // Creates new isntance of the view at the match route
+    // if (!match) {
+    //     match = {
+    //         route: routes[0],
+    //         isMatch: true,
+    //     };
+    // }
+    // Creates new instance of the view: importedClass - at the match route
     const currentView = new match.route.view();
-    console.log("currentView", currentView);
+    console.log("currentView", match.route);
 
     // Set the current views HTML as the main div:s HTML
     document.querySelector("#app").innerHTML = await currentView.getHtml();
@@ -69,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("click", (e) => {
         // Does the link have the [data-link] attribute
         if (e.target.matches("[data-link]")) {
+            console.log(e.target);
             // Prevent following the link and site refresh
             e.preventDefault();
             navigateTo(e.target.href);

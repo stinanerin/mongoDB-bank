@@ -22,6 +22,12 @@ body {
     color:  $text;
 }
 
+main {
+    max-width: 33rem;
+    margin: auto;
+    padding: 1rem;
+}
+
 .btn {
     border: 1px solid black;
     color: $p-white;

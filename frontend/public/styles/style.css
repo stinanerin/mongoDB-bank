@@ -30,6 +30,12 @@ body {
   color: hsl(0deg, 0%, 0%);
 }
 
+main {
+  max-width: 33rem;
+  margin: auto;
+  padding: 1rem;
+}
+
 .btn {
   border: 1px solid black;
   color: hsl(0deg, 0%, 100%);

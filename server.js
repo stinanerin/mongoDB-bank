@@ -1,7 +1,18 @@
 // ------------------- Setup express -------------------
 import express from "express";
+
+
+//! nytt
+import path from "path";
+const __dirname = path.resolve();
+//! nytt
+
+
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
+// const port = 3000;
+
+
 
 // ------------------- Mongo config -------------------
 import { MongoClient, ObjectId } from "mongodb";
@@ -16,7 +27,10 @@ app.use(express.json());
 /* express.json(): 
     handles JSON data in POST and PUT routes,
     similar to how middleware is needed to handle form data and URL-encoded data. */
+
 app.use(express.static("frontend/public"));
+
+
 
 // ------------------- Routes -------------------
 
@@ -35,7 +49,7 @@ app.get("/api/accounts", async (req, res) => {
             error: err.message,
         });
     }
-})
+});
 
 app.post("/api/accounts", async (req, res) => {
     console.log("req.body", req.body);
@@ -52,7 +66,7 @@ app.post("/api/accounts", async (req, res) => {
             error: err.message,
         });
     }
-})
+});
 
 app.get("/api/accounts/:id", async (req, res) => {
     try {
@@ -72,7 +86,6 @@ app.get("/api/accounts/:id", async (req, res) => {
         });
     }
 });
-
 
 app.delete("/api/accounts/:id", async (req, res) => {
     try {
@@ -97,30 +110,30 @@ app.delete("/api/accounts/:id", async (req, res) => {
     }
 })
 
+
+
 app.put("/api/accounts/:id", async (req, res) => {
-    /* todo! 
-    * Prevent user of api to create new keys
-    * Return the updated data if succesfull update?
-    */
+    /* todo!
+     * Prevent user of api to create new keys
+     * Return the updated data if succesfull update?
+     */
     try {
         const updatedData = { $set: {} };
         const keys = Object.keys(req.body);
-    
+
         keys.forEach((key) => {
             /* Go in update objects $set-key property,
             set it to the value of req.body[key] */
             updatedData.$set[key] = req.body[key];
         });
-    
+
         const response = await accountCollection.updateOne(
             { _id: new ObjectId(req.params.id) },
             updatedData
         );
 
         if (response.acknowledged && response.modifiedCount === 0) {
-           throw new Error(
-               "No modified account data was provided."
-           )
+            throw new Error("No modified account data was provided.");
         } else if (response.acknowledged && response.modifiedCount === 1) {
             res.json(response);
         }
@@ -133,11 +146,25 @@ app.put("/api/accounts/:id", async (req, res) => {
     }
 });
 
+
+
+//! Nytt
+app.get("/*", (req, res) => {
+    // oavsett pathen vi skcikar till servern - gå tillbaka till index.html
+    // nödvändigt fö SAP
+    // alltså samma html fil, även om pathen är annorulunda
+    res.sendFile(path.join(__dirname, "frontend", "public", "index.html"));
+});
+
+//! Nytt
+
+
+
 // Listens to the Express.js server for incoming HTTP requests on the specified port
-app.listen(port, (err) => {
+app.listen(PORT, (err) => {
     if (err) {
         console.error("Error when listening: #", code, err);
         return;
     }
-    console.log("Template is listening on port ", port);
+    console.log("Template is listening on port ", PORT);
 });

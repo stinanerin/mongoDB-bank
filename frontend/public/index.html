@@ -19,43 +19,45 @@
         <script src="/js/list.js" defer></script>
         <script src="/js/profilePage.js" defer></script>
         <script src="/js/routing.js" defer></script>
+
+        <!--!NYTT:  Type module för importer -->
+        <script type="module" src="/js/index.js" defer ></script>
+
+
     </head>
 
     <body>
 
         <header class="header">
-            <h1>Bank</h1>
+            <!-- <h1>Bank</h1> -->
+
+            <!-- data-link, används för api -->
+        <nav class="nav">
+            <a href="/" class="nav__link" data-link><h1>Bank</h1></a>
+            <a href="/accounts" class="nav__link" data-link>Accounts</a>
+            <!--! remove verb? -->
+            <a href="/create-account" class="nav__link" data-link>Create account</a>
+        </nav>
             
         </header>
 
         <main>
 
-            <div class="form-wrapper">
-                <h2></h2>
-                
-                <form action="" class="form" id="createAccount" >
+            <div id="app">
 
-                    <div class="form-group">
-                        <label for="accountName" class="form-label">Choose name for account<sup>*</sup></label>
-                        <input class="form-control" type="text" id="accountName" placeholder="Enter account name" required />
-                    </div>
+                <!-- View insterted from routing system -->
 
-                    <div class="form-group">
-                        <label for="accountAmount" class="form-label">Amount<sup>*</sup> </label>
-                        <input class="form-control" type="number" id="accountAmount" placeholder="Enter the amount" required />
-                    </div>
-                    <button class="btn">Create account</button>
-                    
-                </form>
             </div>
-            
+
         </main>
 
+
         <footer>
+
+            <!-- todo -->
             
         </footer>
 
-        
         
     </body>
     </html>

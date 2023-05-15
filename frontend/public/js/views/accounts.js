@@ -10,7 +10,7 @@ export default class extends AbstractView {
         const accArr = await fetchData("/api/accounts");
 
         if (accArr) {
-            const ul = createElement("ul");
+            const ul = createElement("ul", "accounts-list");
             ul.append(createElement("h2", "", "Accounts"));
             accArr.forEach(({ name, amount, _id }) => {
                 const li = createElement("li");

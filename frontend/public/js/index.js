@@ -1,6 +1,8 @@
 //! new
 
 import home from "./views/home.js";
+import createAccount from "./views/createAccount.js";
+import accounts from "./views/accounts.js";
 
 // Navigates to a specific url and updates the history
 const navigateTo = (url) => {
@@ -14,12 +16,12 @@ const router = async () => {
         // Root path - view: home class reference
         { path: "/", view: home },
         // View all accounts:
-        { path: "/accounts", view: () => console.log("viewing accounts") },
+        { path: "/accounts", view: accounts },
 
         // View a specific account by id:
         {
             path: "/create-account",
-            view: () => console.log("viewing create-account"),
+            view: createAccount,
         },
     ];
 

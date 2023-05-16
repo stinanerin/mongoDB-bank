@@ -33,7 +33,25 @@ export default class extends AbstractView {
                         required
                     />
                 </div>
-                <button class="btn">Log in</button>
+                <button class="btn">Register</button>
             </form>`;
+    }
+    addEventListeners() {
+        document
+            .querySelector("#registerForm")
+            .addEventListener("submit", (e) => this.registerUser(e));
+    }
+    async registerUser(e) {
+        e.preventDefault();
+
+        const regName = document.querySelector("#registerName").value;
+        const regPass = document.querySelector("#registerPwd").value;
+
+        const res = await addData("/api/user/register", {
+            regName,
+            regPass
+        })
+        console.log("Register user res: ",res);
+
     }
 }

@@ -6,10 +6,11 @@ const addData = async (route, data) => {
             throw new Error(res.response.statusText);
         }
         // todo? Display success?
-        return res.data.account;
+        return res.data;
     } catch (error) {
         // todo!
         console.error(error);
+        return error.response.data
     }
 };
 

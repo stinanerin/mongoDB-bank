@@ -67,7 +67,7 @@ app.get("/api/user/active", (req, res) => {
         });
     }
 });
-
+//? Remove verb? - crash with register
 app.post("/api/user/login", async(req, res) => {
     try {
         const user = await usersCollection.findOne({
@@ -101,7 +101,7 @@ app.post("/api/user/login", async(req, res) => {
         });
     }
 });
-
+//? Remove verb? - crash with login
 app.post("/api/user/register", async (req, res) => {
     try {
         console.info("api register");

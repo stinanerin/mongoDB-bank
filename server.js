@@ -1,3 +1,5 @@
+import console from "hvb-console";
+
 // ------------------- Setup express -------------------
 import express from "express";
 const app = express();
@@ -39,7 +41,7 @@ app.get("/api/accounts", async (req, res) => {
             accounts: response,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
@@ -69,7 +71,7 @@ app.post("/api/accounts", async (req, res) => {
             account: account,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
@@ -85,8 +87,10 @@ app.put("/api/accounts/:id/update-amount", async (req, res) => {
             _id: new ObjectId(req.params.id),
         });
 
-        if(account.amount + req.body.amount < 0) {
-            throw new Error(`Current balance: ${account.amount}, too low for withdrawl`);
+        if (account.amount + req.body.amount < 0) {
+            throw new Error(
+                `Current balance: ${account.amount}, too low for withdrawl`
+            );
         }
 
         const response = await accountCollection.updateOne(
@@ -112,7 +116,7 @@ app.put("/api/accounts/:id/update-amount", async (req, res) => {
             throw new Error("Something went wrong");
         }
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
@@ -154,7 +158,7 @@ app.delete("/api/accounts/:id", async (req, res) => {
             message: `Account #${req.params.id} successfully deleted`,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
@@ -188,7 +192,7 @@ app.put("/api/accounts/:id/update-fields", async (req, res) => {
             res.json(response);
         }
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,

@@ -53,6 +53,21 @@ app.use(
 // ------------------- Routes -------------------
 // Users
 
+app.get("/api/user/active", (req, res) => {
+    console.log("req.session", req.session);
+    if (req.session.user) {
+        res.json({
+            acknowledged: true,
+            user: req.session.user,
+        });
+    } else {
+        res.status(401).json({
+            acknowledged: false,
+            error: "Unauthorized",
+        });
+    }
+});
+
 app.post("/api/user/login", async (req, res) => {
     try {
         const user = await usersCollection.findOne({
@@ -82,7 +97,6 @@ app.post("/api/user/login", async (req, res) => {
             error: err.message,
         });
     }
-    
 });
 
 app.post("/api/user/register", async (req, res) => {

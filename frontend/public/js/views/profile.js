@@ -19,14 +19,14 @@ export default class extends AbstractView {
             <div>
                 <h3>Account options:</h3>
                 <div>
-                    <form id="transaction">
+                    <form id="transactionForm">
                         <h4>Transaction</h4>
                         <div class="form-group">
-                            <label class="form-label" for="transInput">Enter amount:</label>
-                            <input class="form-control" id="transInput" type="number" placeholder="Enter amount " required/>
+                            <label class="form-label" for="transactionInput">Enter amount:</label>
+                            <input class="form-control" id="transactionInput" type="number" placeholder="Enter amount " required/>
                         </div>
-                        <button class="btn" aria-label="Make a deposit">Deposit</button>
-                        <button class="btn" aria-label="Make a withdrawal">Withdraw</button>
+                        <button type="submit" class="btn" name="action" value="deposit" aria-label="Make a deposit">Deposit</button>
+                        <button type="submit" class="btn" name="action" value="withdraw" aria-label="Make a withdrawal">Withdraw</button>
                     </form>
                         
                     <form id="deleteAcc">
@@ -43,14 +43,26 @@ export default class extends AbstractView {
     }
     addEventListeners() {
         document
-            .querySelector("#transaction")
+            .querySelector("#transactionForm")
             .addEventListener("submit", (e) => this.handleTransactionSubmit(e));
+
+        document
+            .querySelector("#transactionInput")
+            .addEventListener("input", () => {
+                clearNumericInput("transactionInput");
+            });
     }
 
     async handleTransactionSubmit(e) {
         e.preventDefault();
+        
+        let transactionAmount = e.target.querySelector("input").value;
 
-        const transactionAmount = e.target.querySelector("input").value;
+        if(e.submitter.value === "withdraw") {
+            transactionAmount = transactionAmount * -1
+        }
+
+        console.log(transactionAmount);
 
         try {
             const response = await updateAccount(

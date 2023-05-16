@@ -8,3 +8,10 @@ const createElement = (type, aClass, str) => {
     }
     return elem;
 };
+
+const clearNumericInput = (id) => {
+    const elem = document.querySelector(`#${id}`);
+    const elemValue = elem.value;
+    const cleansedValue = elemValue.replace(/[^0-9]/g, "");
+    elem.value = cleansedValue;
+};

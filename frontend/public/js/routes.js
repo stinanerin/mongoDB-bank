@@ -2,6 +2,7 @@ import home from "./views/home.js";
 import createAccount from "./views/createAccount.js";
 import accounts from "./views/accounts.js";
 import profile from "./views/profile.js";
+import login from "./views/login.js";
 
 // Navigates to a specific url and updates the history
 const navigateTo = (url) => {
@@ -25,6 +26,10 @@ const router = async () => {
         {
             path: "/profile",
             view: profile,
+        },
+        {
+            path: "/login",
+            view: login,
         },
     ];
 

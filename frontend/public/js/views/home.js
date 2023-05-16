@@ -5,7 +5,6 @@ export default class extends AbstractView {
         super();
         this.setTitle("Bank");
     }
-    // Load html from sevrer side
     async getHtml() {
         return `
             <h2>Bank</h2>

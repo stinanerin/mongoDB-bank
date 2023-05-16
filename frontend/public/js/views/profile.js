@@ -3,17 +3,16 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView {
     constructor() {
         super();
+        this.id = window.location.href.split("/").at(-1).split("?")[0];
         this.setTitle("Profile page");
     }
     async getHtml() {
-        const id = window.location.href.split("/").at(-1);
-
-        const profile = await fetchData(`/api/accounts/${id}`);
+        const profile = await fetchData(`/api/accounts/${this.id}`);
 
         if (profile) {
             const div = createElement("div");
             const name = createElement("h2", "", profile.name);
-            const profilId = createElement("p", "", `Account #${id}`);
+            const profilId = createElement("p", "", `Account #${this.id}`);
             const amount = createElement("p", "", `Amount $${profile.amount}`);
             div.append(name, profilId, amount);
             div.innerHTML += `
@@ -39,12 +38,23 @@ export default class extends AbstractView {
         }
     }
     addEventListeners() {
-        //todo! OBS! Det skall inte gå att ta bort mer pengar än det finns på kontot!
-
-        document.querySelector("#deposit").addEventListener("submit", (e) => {
+ 
+        document.querySelector("#deposit").addEventListener("submit", async(e) => {
             e.preventDefault()
-            console.log(e.target);
-            console.log(e.target.querySelector("input").value);
+    
+            const depositAmount = e.target.querySelector("input").value;
+
+            const response = await updateAccount(
+                `/api/accounts/${this.id}/update-amount`,
+                depositAmount
+            );
+            console.log(response);
+            if(response) {
+
+                console.log(await this.getHtml());
+                document.querySelector("#app").innerHTML = await this.getHtml();
+            }
+
         });
     }
 

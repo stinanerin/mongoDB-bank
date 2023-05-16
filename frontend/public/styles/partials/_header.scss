@@ -6,4 +6,7 @@
     * {
         color: $p-white;
     }
+    nav {
+        @include flex(default, space-between, center)
+    }
 }

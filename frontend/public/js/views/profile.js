@@ -19,16 +19,20 @@ export default class extends AbstractView {
             <div>
                 <h3>Account options:</h3>
                 <div>
-                    <form id="deposit">
-                        <h4>Deposit</h4>
-                        <input type="number" placeholder="Enter amount to deposit" required/>
+                    <form id="transaction">
+                        <h4>Transaction</h4>
+                        <div class="form-group">
+                            <label class="form-label" for="transInput">Enter amount:</label>
+                            <input class="form-control" id="transInput" type="number" placeholder="Enter amount " required/>
+                        </div>
                         <button class="btn" aria-label="Make a deposit">Deposit</button>
-                    </form>
-
-                    <form id="withdraw">
-                        <h4>Withdraw</h4>
-                        <input type="number" placeholder="Enter amount to withdraw" required/>
                         <button class="btn" aria-label="Make a withdrawal">Withdraw</button>
+                    </form>
+                        
+                    <form id="deleteAcc">
+                        <h4>Delete Account</h4>
+                        <button class="btn" aria-label="Delete account">Delete</button>
+
                     </form>
                 </div>
             </div>`;
@@ -39,23 +43,23 @@ export default class extends AbstractView {
     }
     addEventListeners() {
  
-        document.querySelector("#deposit").addEventListener("submit", async(e) => {
-            e.preventDefault()
-    
-            const depositAmount = e.target.querySelector("input").value;
+        document
+            .querySelector("#transaction")
+            .addEventListener("submit", async (e) => {
+                e.preventDefault();
 
-            const response = await updateAccount(
-                `/api/accounts/${this.id}/update-amount`,
-                depositAmount
-            );
-            console.log(response);
-            if(response) {
+                const depositAmount = e.target.querySelector("input").value;
 
-                console.log(await this.getHtml());
-                document.querySelector("#app").innerHTML = await this.getHtml();
-            }
-
-        });
+                const response = await updateAccount(
+                    `/api/accounts/${this.id}/update-amount`,
+                    depositAmount
+                );
+                console.log(response);
+                if (response) {
+                    document.querySelector("#app").innerHTML =
+                        await this.getHtml();
+                }
+            });
     }
 
 }

@@ -17,7 +17,9 @@ const addAccount = async (name, amount) => {
     } catch (error) {
         console.log(error);
     }
-};
+}
+
+
 
 const fetchData = async(route) => {
     try {

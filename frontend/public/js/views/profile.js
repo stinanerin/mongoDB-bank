@@ -22,13 +22,13 @@ export default class extends AbstractView {
                 <div>
                     <form id="deposit">
                         <h4>Deposit</h4>
-                        <input type="num" placeholder="Enter amount to deposit" />
+                        <input type="number" placeholder="Enter amount to deposit" required/>
                         <button class="btn" aria-label="Make a deposit">Deposit</button>
                     </form>
 
                     <form id="withdraw">
                         <h4>Withdraw</h4>
-                        <input type="num" placeholder="Enter amount to withdraw" />
+                        <input type="number" placeholder="Enter amount to withdraw" required/>
                         <button class="btn" aria-label="Make a withdrawal">Withdraw</button>
                     </form>
                 </div>
@@ -39,9 +39,13 @@ export default class extends AbstractView {
         }
     }
     addEventListeners() {
-        document.querySelector("#deposit").addEventListener("submit", () => {
+        //todo! OBS! Det skall inte gå att ta bort mer pengar än det finns på kontot!
 
-        })
+        document.querySelector("#deposit").addEventListener("submit", (e) => {
+            e.preventDefault()
+            console.log(e.target);
+            console.log(e.target.querySelector("input").value);
+        });
     }
 
 }

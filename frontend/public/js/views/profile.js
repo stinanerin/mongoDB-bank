@@ -49,7 +49,6 @@ export default class extends AbstractView {
 
     async handleTransactionSubmit(e) {
         e.preventDefault();
-        console.log("in form");
 
         const transactionAmount = e.target.querySelector("input").value;
 
@@ -57,13 +56,12 @@ export default class extends AbstractView {
             const response = await updateAccount(
                 `/api/accounts/${this.id}/update-amount`,
                 transactionAmount
-            );
-            console.log(response);
-
+            )
             if (response) {
                 await this.updateUI();
             }
         } catch (error) {
+            // todo!
             console.error("Error occurred:", error);
         }
     }
@@ -71,11 +69,10 @@ export default class extends AbstractView {
         try {
             document.querySelector("#app").innerHTML = await this.getHtml();
             // Re-add event listeners after updating the UI since they are "removed" when reloading the HTML
-            console.log(this);
             this.addEventListeners();
         } catch (error) {
+            // todo! 
             console.error("Error occurred:", error);
-            // Handle the error appropriately, e.g., display an error message to the user.
         }
     }
 }

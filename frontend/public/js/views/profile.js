@@ -69,8 +69,10 @@ export default class extends AbstractView {
     }
     async updateUI() {
         try {
-            const html = await this.getHtml();
-            document.querySelector("#app").innerHTML = html;
+            document.querySelector("#app").innerHTML = await this.getHtml();
+            // Re-add event listeners after updating the UI since they are "removed" when reloading the HTML
+            console.log(this);
+            this.addEventListeners();
         } catch (error) {
             console.error("Error occurred:", error);
             // Handle the error appropriately, e.g., display an error message to the user.

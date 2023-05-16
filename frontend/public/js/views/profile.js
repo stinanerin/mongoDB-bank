@@ -7,14 +7,14 @@ export default class extends AbstractView {
         this.setTitle("Profile page");
     }
     async getHtml() {
-        const profile = await fetchData(`/api/accounts/${this.id}`);
+        const account = await fetchData(`/api/accounts/${this.id}`);
 
-        if (profile) {
+        if (account) {
             const div = createElement("div");
-            const name = createElement("h2", "", profile.name);
-            const profilId = createElement("p", "", `Account #${this.id}`);
-            const amount = createElement("p", "", `Amount $${profile.amount}`);
-            div.append(name, profilId, amount);
+            const name = createElement("h2", "", account.name);
+            const accountId = createElement("p", "", `Account #${this.id}`);
+            const amount = createElement("p", "", `Amount $${account.amount}`);
+            div.append(name, accountId, amount);
             div.innerHTML += `
             <div>
                 <h3>Account options:</h3>
@@ -29,46 +29,51 @@ export default class extends AbstractView {
                         <button type="submit" class="btn" name="action" value="withdraw" aria-label="Make a withdrawal">Withdraw</button>
                     </form>
                         
-                    <form id="deleteAcc">
+                    <form id="deleteForm">
                         <h4>Delete Account</h4>
                         <button class="btn" aria-label="Delete account">Delete</button>
-
                     </form>
                 </div>
             </div>`;
             return div.outerHTML;
         } else {
-            // todo! Person not found
+            // todo! account not found
+            //! render 404?
+            return `<p>The account no longer exists</p>`;
         }
     }
     addEventListeners() {
         document
             .querySelector("#transactionForm")
-            .addEventListener("submit", (e) => this.handleTransactionSubmit(e));
+            ?.addEventListener("submit", (e) =>
+                this.handleTransactionSubmit(e)
+            );
 
         document
             .querySelector("#transactionInput")
-            .addEventListener("input", () => {
+            ?.addEventListener("input", () => {
                 clearNumericInput("transactionInput");
             });
+
+        document
+            .querySelector("#deleteForm")
+            ?.addEventListener("submit", (e) => this.deleteAccount(e));
     }
 
     async handleTransactionSubmit(e) {
         e.preventDefault();
-        
+
         let transactionAmount = e.target.querySelector("input").value;
 
-        if(e.submitter.value === "withdraw") {
-            transactionAmount = transactionAmount * -1
+        if (e.submitter.value === "withdraw") {
+            transactionAmount = transactionAmount * -1;
         }
-
-        console.log(transactionAmount);
 
         try {
             const response = await updateAccount(
                 `/api/accounts/${this.id}/update-amount`,
                 transactionAmount
-            )
+            );
             if (response) {
                 await this.updateUI();
             }
@@ -83,8 +88,24 @@ export default class extends AbstractView {
             // Re-add event listeners after updating the UI since they are "removed" when reloading the HTML
             this.addEventListeners();
         } catch (error) {
-            // todo! 
+            // todo!
             console.error("Error occurred:", error);
         }
+    }
+    async deleteAccount(e) {
+        e.preventDefault();
+
+        try {
+            const response = await deleteDocument(`/api/accounts/${this.id}`);
+            if(response) {
+                // todo! Some succes msg
+                this.getHtml();
+            }
+        } catch (error) {
+            // todo!
+            console.error("Error occurred:", error);
+        }
+
+
     }
 }

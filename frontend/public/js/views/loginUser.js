@@ -36,6 +36,24 @@ export default class extends AbstractView {
                 <button class="btn">Log in</button>
             </form>`;
     }
-}
+    addEventListeners() {
+        document
+            .querySelector("#loginForm")
+            .addEventListener("submit", (e) => this.loginUser(e));
+    }
+    async loginUser(e) {
+        e.preventDefault();
 
-;
+        const loginName = document.querySelector("#loginName").value;
+        const loginPass = document.querySelector("#loginPwd").value;
+        console.log(loginName, loginPass);
+
+        const res = await addData("/api/user/login", {
+            loginName,
+            loginPass,
+        });
+
+        console.log("Login result: ", res);
+
+    }
+}

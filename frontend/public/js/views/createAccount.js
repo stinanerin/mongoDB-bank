@@ -36,9 +36,12 @@ export default class extends AbstractView {
 
             const accName = document.querySelector("#accountName").value;
             const accAmount = document.querySelector("#accountAmount").value;
-            
-            const response = await addAccount(accName, accAmount);
+            const response = await addData("/api/accounts", {
+                accName,
+                accAmount,
+            });
             console.log(response);
+            // todo! succes creating account
         });
     }
 }

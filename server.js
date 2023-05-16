@@ -68,11 +68,13 @@ app.get("/api/user/active", (req, res) => {
     }
 });
 
-app.post("/api/user/login", async (req, res) => {
+app.post("/api/user/login", async(req, res) => {
     try {
         const user = await usersCollection.findOne({
             user: req.body.loginName,
         });
+        console.log(req.body);
+        console.log(req.body.loginName, req.body.loginPass);
         if (user) {
             const match = await bcrypt.compare(req.body.loginPass, user.pass);
             if (match) {
@@ -80,6 +82,7 @@ app.post("/api/user/login", async (req, res) => {
                 // sessionsobejktet finns ej på res
                 req.session.user = user.user;
                 // svara till klienten - login namnet
+
                 res.json({
                     acknowledged: true,
                     user: user.user,

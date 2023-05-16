@@ -1,7 +1,7 @@
 // Henriks console.log
 import console from "hvb-console";
-// ------------------- Setup user sessions -------------------
 
+// ------------------- Setup user sessions -------------------
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import bcrypt from "bcrypt";
@@ -10,8 +10,9 @@ import { restrict } from "./middleware.js";
 // ------------------- Setup express -------------------
 import express from "express";
 const app = express();
-const PORT = process.env.PORT || 3000;
-console.log(process.env.PORT);
+const PORT = 3000;
+// For encryption
+const SALT_ROUNDS = 10;
 
 // ------------------- Setup SAP -------------------
 // Importing the 'path' module for file path manipulation.
@@ -32,16 +33,60 @@ const accountCollection = db.collection("accounts");
 const usersCollection = db.collection("users");
 
 // ------------------- Middlewares -------------------
+app.use(cookieParser());
 app.use(express.json());
 /* express.json(): 
     handles JSON data in POST and PUT routes,
     similar to how middleware is needed to handle form data and URL-encoded data. 
 */
-
 app.use(express.static("frontend/public"));
+app.use(
+    session({
+        // don't save session if unmodified
+        resave: false,
+        // don't create session until something stored
+        saveUninitialized: false,
+        secret: "shhhh very secret string",
+    })
+);
 
 // ------------------- Routes -------------------
-// Accounts - plural
+// Users
+
+app.post("/api/user/register", async (req, res) => {
+    try {
+        console.info("api register");
+
+        const takenUsername = await usersCollection.findOne({
+            user: req.body.regName,
+        });
+        console.log("takenUsername", takenUsername);
+        if (!takenUsername) {
+            console.log(req.body.regName);
+            const hash = await bcrypt.hash(req.body.regPass, SALT_ROUNDS);
+
+            const newUser = await usersCollection.insertOne({
+                user: req.body.regName,
+                pass: hash,
+            });
+            if (newUser.acknowledged) {
+                console.log(newUser);
+                req.session.user = req.body.regName;
+                res.json(req.body.regName);
+            }
+        } else {
+            throw new Error("Username already exists");
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(400).json({
+            acknowledged: false,
+            error: err.message,
+        });
+    }
+});
+
+// Bank accounts - plural
 app.get("/api/accounts", async (req, res) => {
     try {
         const response = await accountCollection.find({}).toArray();
@@ -88,7 +133,7 @@ app.post("/api/accounts", async (req, res) => {
     }
 });
 
-// Account - singular
+// Bank account - singular
 app.put("/api/accounts/:id/update-amount", async (req, res) => {
     try {
         // Manual check of balance

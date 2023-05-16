@@ -3,22 +3,88 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView {
     constructor() {
         super();
+        this.id = window.location.href.split("/").at(-1).split("?")[0];
         this.setTitle("Profile page");
     }
     async getHtml() {
-        const id = window.location.href.split("/").at(-1);
-
-        const profile = await fetchData(`/api/accounts/${id}`);
+        const profile = await fetchData(`/api/accounts/${this.id}`);
 
         if (profile) {
             const div = createElement("div");
-            const name = createElement("h1", "", profile.name);
-            const profilId = createElement("p", "", `Account #${id}`);
+            const name = createElement("h2", "", profile.name);
+            const profilId = createElement("p", "", `Account #${this.id}`);
             const amount = createElement("p", "", `Amount $${profile.amount}`);
             div.append(name, profilId, amount);
+            div.innerHTML += `
+            <div>
+                <h3>Account options:</h3>
+                <div>
+                    <form id="transactionForm">
+                        <h4>Transaction</h4>
+                        <div class="form-group">
+                            <label class="form-label" for="transactionInput">Enter amount:</label>
+                            <input class="form-control" id="transactionInput" type="number" placeholder="Enter amount " required/>
+                        </div>
+                        <button type="submit" class="btn" name="action" value="deposit" aria-label="Make a deposit">Deposit</button>
+                        <button type="submit" class="btn" name="action" value="withdraw" aria-label="Make a withdrawal">Withdraw</button>
+                    </form>
+                        
+                    <form id="deleteAcc">
+                        <h4>Delete Account</h4>
+                        <button class="btn" aria-label="Delete account">Delete</button>
+
+                    </form>
+                </div>
+            </div>`;
             return div.outerHTML;
         } else {
             // todo! Person not found
+        }
+    }
+    addEventListeners() {
+        document
+            .querySelector("#transactionForm")
+            .addEventListener("submit", (e) => this.handleTransactionSubmit(e));
+
+        document
+            .querySelector("#transactionInput")
+            .addEventListener("input", () => {
+                clearNumericInput("transactionInput");
+            });
+    }
+
+    async handleTransactionSubmit(e) {
+        e.preventDefault();
+        
+        let transactionAmount = e.target.querySelector("input").value;
+
+        if(e.submitter.value === "withdraw") {
+            transactionAmount = transactionAmount * -1
+        }
+
+        console.log(transactionAmount);
+
+        try {
+            const response = await updateAccount(
+                `/api/accounts/${this.id}/update-amount`,
+                transactionAmount
+            )
+            if (response) {
+                await this.updateUI();
+            }
+        } catch (error) {
+            // todo!
+            console.error("Error occurred:", error);
+        }
+    }
+    async updateUI() {
+        try {
+            document.querySelector("#app").innerHTML = await this.getHtml();
+            // Re-add event listeners after updating the UI since they are "removed" when reloading the HTML
+            this.addEventListeners();
+        } catch (error) {
+            // todo! 
+            console.error("Error occurred:", error);
         }
     }
 }

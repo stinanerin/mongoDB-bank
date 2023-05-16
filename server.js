@@ -1,18 +1,16 @@
+import console from "hvb-console";
+
 // ------------------- Setup express -------------------
 import express from "express";
-
-
-//! nytt
-import path from "path";
-const __dirname = path.resolve();
-//! nytt
-
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 // const port = 3000;
 
-
+// ------------------- Setup SAP -------------------
+// Importing the 'path' module for file path manipulation.
+import path from "path";
+// Resolving the current directory path.
+const __dirname = path.resolve();
 
 // ------------------- Mongo config -------------------
 import { MongoClient, ObjectId } from "mongodb";
@@ -20,21 +18,21 @@ import { MongoClient, ObjectId } from "mongodb";
 const client = new MongoClient("mongodb://localhost:27017");
 await client.connect();
 const db = client.db("bank");
+
+// Create a variable pointing to the new "accounts" collection
 const accountCollection = db.collection("accounts");
 
 // ------------------- Middlewares -------------------
 app.use(express.json());
 /* express.json(): 
     handles JSON data in POST and PUT routes,
-    similar to how middleware is needed to handle form data and URL-encoded data. */
+    similar to how middleware is needed to handle form data and URL-encoded data. 
+*/
 
 app.use(express.static("frontend/public"));
 
-
-
 // ------------------- Routes -------------------
-
-// Accounts
+// Accounts - plural
 app.get("/api/accounts", async (req, res) => {
     try {
         const response = await accountCollection.find({}).toArray();
@@ -43,7 +41,7 @@ app.get("/api/accounts", async (req, res) => {
             accounts: response,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
@@ -52,15 +50,75 @@ app.get("/api/accounts", async (req, res) => {
 });
 
 app.post("/api/accounts", async (req, res) => {
-    console.log("req.body", req.body);
+    console.info("req.body", req.body);
     try {
-        await accountCollection.insertOne(req.body);
+        const { name, amount } = req.body;
+
+        // Manual validation
+        if (typeof name !== "string" || isNaN(parseFloat(amount))) {
+            throw new Error("Invalid data format");
+        }
+
+        const account = {
+            name: name,
+            amount: parseFloat(amount),
+        };
+
+        await accountCollection.insertOne(account);
+
         res.json({
             acknowledged: true,
-            account: req.body,
+            account: account,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(400).json({
+            acknowledged: false,
+            error: err.message,
+        });
+    }
+});
+
+// Account - singular
+app.put("/api/accounts/:id/update-amount", async (req, res) => {
+    try {
+        // Manual check of balance
+        const account = await accountCollection.findOne({
+            _id: new ObjectId(req.params.id),
+        });
+
+        if (account.amount + req.body.amount < 0) {
+            throw new Error(
+                `Current balance: ${account.amount}, too low for withdrawl`
+            );
+        }
+
+        const response = await accountCollection.updateOne(
+            // Filter
+            { _id: new ObjectId(req.params.id) },
+            // Updated body
+            {
+                $inc: {
+                    amount: req.body.amount,
+                },
+            }
+        );
+        console.log("response before ack check", response);
+
+        if (response.acknowledged && response.modifiedCount > 0) {
+            console.info("here inside response.ack amount");
+            const updatedAccount = await accountCollection.findOne({
+                _id: new ObjectId(req.params.id),
+            });
+            res.json({
+                acknowledged: true,
+                account: updatedAccount,
+            });
+        } else {
+            throw new Error("Something went wrong");
+        }
+    } catch (err) {
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
@@ -73,13 +131,14 @@ app.get("/api/accounts/:id", async (req, res) => {
         const response = await accountCollection.findOne({
             _id: new ObjectId(req.params.id),
         });
+        console.info("res in get:id");
         console.log(response);
         res.json({
             acknowledged: true,
             accounts: response,
         });
-    } catch (error) {
-        console.log(err);
+    } catch (err) {
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
@@ -102,17 +161,15 @@ app.delete("/api/accounts/:id", async (req, res) => {
             message: `Account #${req.params.id} successfully deleted`,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
         });
     }
-})
+});
 
-
-
-app.put("/api/accounts/:id", async (req, res) => {
+app.put("/api/accounts/:id/update-fields", async (req, res) => {
     /* todo!
      * Prevent user of api to create new keys
      * Return the updated data if succesfull update?
@@ -138,7 +195,7 @@ app.put("/api/accounts/:id", async (req, res) => {
             res.json(response);
         }
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,
@@ -146,21 +203,16 @@ app.put("/api/accounts/:id", async (req, res) => {
     }
 });
 
-
-
-//! Nytt
 app.get("/*", (req, res) => {
-    // oavsett pathen vi skcikar till servern - gå tillbaka till index.html
-    // nödvändigt fö SAP
-    // alltså samma html fil, även om pathen är annorulunda
+    /*
+     * Regardless of the path sent to the server, always serve the index.html file.
+     * This is necessary for SAP integration.
+     * It ensures that the same HTML file is served, even if the requested path is different.
+     * */
     res.sendFile(path.join(__dirname, "frontend", "public", "index.html"));
 });
 
-//! Nytt
-
-
-
-// Listens to the Express.js server for incoming HTTP requests on the specified port
+// Starting the server and listening for http requests made to the specified port
 app.listen(PORT, (err) => {
     if (err) {
         console.error("Error when listening: #", code, err);

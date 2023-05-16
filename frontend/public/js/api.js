@@ -15,9 +15,23 @@ const addAccount = async (name, amount) => {
         // todo? Display success?
         return res.data.account
     } catch (error) {
-        console.log(error);
+        // todo!
+        console.error(error);
     }
-};
+}
+
+const updateAccount = async(route, value) => {
+    try {
+        const res = await axios.put(route, {
+            amount: Number(value),
+        })
+
+        return res.data.account
+    } catch (error) {
+        // todo! Display modal?
+        console.log(error.response.data.error);
+    }
+}
 
 const fetchData = async(route) => {
     try {
@@ -28,8 +42,7 @@ const fetchData = async(route) => {
         }
         return res.data.accounts; 
     } catch (error) {
-        // todo? Display modal?
-        console.log(error);
+        // todo! Display modal?
+        console.log(error.response.data.error);
     }
-
 }

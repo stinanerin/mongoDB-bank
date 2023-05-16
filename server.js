@@ -53,6 +53,38 @@ app.use(
 // ------------------- Routes -------------------
 // Users
 
+app.post("/api/user/login", async (req, res) => {
+    try {
+        const user = await usersCollection.findOne({
+            user: req.body.loginName,
+        });
+        if (user) {
+            const match = await bcrypt.compare(req.body.loginPass, user.pass);
+            if (match) {
+                // sätts på req, ej res.
+                // sessionsobejktet finns ej på res
+                req.session.user = user.user;
+                // svara till klienten - login namnet
+                res.json({
+                    acknowledged: true,
+                    user: user.user,
+                });
+            } else {
+                throw new Error("Unauthorized");
+            }
+        } else {
+            throw new Error("Unauthorized");
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(401).json({
+            acknowledged: false,
+            error: err.message,
+        });
+    }
+    
+});
+
 app.post("/api/user/register", async (req, res) => {
     try {
         console.info("api register");
@@ -72,7 +104,10 @@ app.post("/api/user/register", async (req, res) => {
             if (newUser.acknowledged) {
                 console.log(newUser);
                 req.session.user = req.body.regName;
-                res.json(req.body.regName);
+                res.json({
+                    acknowledged: true,
+                    user: req.body.regName,
+                });
             }
         } else {
             throw new Error("Username already exists");

@@ -21,10 +21,12 @@ const addAccount = async (name, amount) => {
 
 const updateAccount = async(route, value) => {
     try {
-    
+        console.log(typeof value);
+        console.log(typeof Number(value));
         const res = await axios.put(route, {
             amount: Number(value),
         });
+        console.log(res);
 
         return res.data.account
         

@@ -42,24 +42,38 @@ export default class extends AbstractView {
         }
     }
     addEventListeners() {
- 
         document
             .querySelector("#transaction")
-            .addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const depositAmount = e.target.querySelector("input").value;
-
-                const response = await updateAccount(
-                    `/api/accounts/${this.id}/update-amount`,
-                    depositAmount
-                );
-                console.log(response);
-                if (response) {
-                    document.querySelector("#app").innerHTML =
-                        await this.getHtml();
-                }
-            });
+            .addEventListener("submit", (e) => this.handleTransactionSubmit(e));
     }
 
+    async handleTransactionSubmit(e) {
+        e.preventDefault();
+        console.log("in form");
+
+        const transactionAmount = e.target.querySelector("input").value;
+
+        try {
+            const response = await updateAccount(
+                `/api/accounts/${this.id}/update-amount`,
+                transactionAmount
+            );
+            console.log(response);
+
+            if (response) {
+                await this.updateUI();
+            }
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+    async updateUI() {
+        try {
+            const html = await this.getHtml();
+            document.querySelector("#app").innerHTML = html;
+        } catch (error) {
+            console.error("Error occurred:", error);
+            // Handle the error appropriately, e.g., display an error message to the user.
+        }
+    }
 }

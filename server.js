@@ -50,7 +50,7 @@ app.get("/api/accounts", async (req, res) => {
 });
 
 app.post("/api/accounts", async (req, res) => {
-    console.log("req.body", req.body);
+    console.info("req.body", req.body);
     try {
         const { name, amount } = req.body;
 
@@ -103,8 +103,10 @@ app.put("/api/accounts/:id/update-amount", async (req, res) => {
                 },
             }
         );
+        console.log("response before ack check", response);
 
         if (response.acknowledged && response.modifiedCount > 0) {
+            console.info("here inside response.ack amount");
             const updatedAccount = await accountCollection.findOne({
                 _id: new ObjectId(req.params.id),
             });
@@ -129,6 +131,7 @@ app.get("/api/accounts/:id", async (req, res) => {
         const response = await accountCollection.findOne({
             _id: new ObjectId(req.params.id),
         });
+        console.info("res in get:id");
         console.log(response);
         res.json({
             acknowledged: true,

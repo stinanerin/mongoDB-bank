@@ -46,3 +46,15 @@ const fetchData = async(route) => {
         console.log(error.response.data.error);
     }
 }
+
+const deleteDocument = async(route) => {
+    try {
+        const res = await axios.delete(route);
+        console.log(res);
+        console.log(res.data.message);
+        return res.data.message
+    } catch (error) {
+        // todo! Display modal?
+        console.log(error.response.data.error);
+    }
+}

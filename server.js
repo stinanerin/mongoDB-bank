@@ -1,10 +1,17 @@
+// Henriks console.log
 import console from "hvb-console";
+// ------------------- Setup user sessions -------------------
+
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import bcrypt from "bcrypt";
+import { restrict } from "./middleware.js";
 
 // ------------------- Setup express -------------------
 import express from "express";
 const app = express();
 const PORT = process.env.PORT || 3000;
-// const port = 3000;
+console.log(process.env.PORT);
 
 // ------------------- Setup SAP -------------------
 // Importing the 'path' module for file path manipulation.
@@ -19,16 +26,10 @@ const client = new MongoClient("mongodb://localhost:27017");
 await client.connect();
 const db = client.db("bank");
 
-// Create a variable pointing to the new "accounts" collection
+// Accounts collection
 const accountCollection = db.collection("accounts");
-
-
-// ------------------- Setup user sessions -------------------
-
-import { restrict } from "./middleware.js";
-import cookieParser from "cookie-parser";
-import session from "express-session";
-import bcrypt from "bcrypt";
+// Users collection
+const usersCollection = db.collection("users");
 
 // ------------------- Middlewares -------------------
 app.use(express.json());

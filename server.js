@@ -28,7 +28,7 @@ const accountCollection = db.collection("accounts");
 import { restrict } from "./middleware.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-
+import bcrypt from "bcrypt";
 
 // ------------------- Middlewares -------------------
 app.use(express.json());

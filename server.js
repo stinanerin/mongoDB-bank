@@ -16,6 +16,8 @@ import { MongoClient, ObjectId } from "mongodb";
 const client = new MongoClient("mongodb://localhost:27017");
 await client.connect();
 const db = client.db("bank");
+
+// Create a variable pointing to the new "accounts" collection
 const accountCollection = db.collection("accounts");
 
 // ------------------- Middlewares -------------------
@@ -48,10 +50,21 @@ app.get("/api/accounts", async (req, res) => {
 app.post("/api/accounts", async (req, res) => {
     console.log("req.body", req.body);
     try {
-        await accountCollection.insertOne(req.body);
+        const { name, amount } = req.body;
+
+        // Manual validation
+        if (typeof name !== "string" || isNaN(parseFloat(amount))) {
+            throw new Error("Invalid data format");
+        }
+
+        const account = {
+            name: name,
+            amount: parseFloat(amount),
+        };
+        await accountCollection.insertOne(account);
         res.json({
             acknowledged: true,
-            account: req.body,
+            account: account,
         });
     } catch (err) {
         console.log(err);

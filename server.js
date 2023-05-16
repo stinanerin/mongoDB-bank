@@ -85,11 +85,6 @@ app.put("/api/accounts/:id/update-amount", async (req, res) => {
             _id: new ObjectId(req.params.id),
         });
 
-        console.log("b", account.amount);
-        console.log("ins", req.body.amount);
-
-        console.log("tot", account.amount + req.body.amount);
-
         if(account.amount + req.body.amount < 0) {
             throw new Error(`Current balance: ${account.amount}, too low for withdrawl`);
         }

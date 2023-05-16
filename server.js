@@ -61,7 +61,9 @@ app.post("/api/accounts", async (req, res) => {
             name: name,
             amount: parseFloat(amount),
         };
+
         await accountCollection.insertOne(account);
+
         res.json({
             acknowledged: true,
             account: account,
@@ -78,7 +80,20 @@ app.post("/api/accounts", async (req, res) => {
 // Account - singular
 app.put("/api/accounts/:id/update-amount", async (req, res) => {
     try {
-        console.log(req.body);
+        // Manual check of balance
+        const account = await accountCollection.findOne({
+            _id: new ObjectId(req.params.id),
+        });
+
+        console.log("b", account.amount);
+        console.log("ins", req.body.amount);
+
+        console.log("tot", account.amount + req.body.amount);
+
+        if(account.amount + req.body.amount < 0) {
+            throw new Error(`Current balance: ${account.amount}, too low for withdrawl`);
+        }
+
         const response = await accountCollection.updateOne(
             // Filter
             { _id: new ObjectId(req.params.id) },
@@ -99,7 +114,7 @@ app.put("/api/accounts/:id/update-amount", async (req, res) => {
                 account: updatedAccount,
             });
         } else {
-            throw new Error("Soemthing went wrong - does the account exists?");
+            throw new Error("Something went wrong");
         }
     } catch (err) {
         console.log(err);

@@ -22,6 +22,14 @@ const db = client.db("bank");
 // Create a variable pointing to the new "accounts" collection
 const accountCollection = db.collection("accounts");
 
+
+// ------------------- Setup user sessions -------------------
+
+import { restrict } from "./middleware.js";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+
+
 // ------------------- Middlewares -------------------
 app.use(express.json());
 /* express.json(): 

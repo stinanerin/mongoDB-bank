@@ -89,9 +89,18 @@ app.put("/api/accounts/:id/update-amount", async (req, res) => {
                 },
             }
         );
-        console.log("Increment res", response);
-        res.json(response);
-        //todo answer with mdofied object
+
+        if (response.acknowledged && response.modifiedCount > 0) {
+            const updatedAccount = await accountCollection.findOne({
+                _id: new ObjectId(req.params.id),
+            });
+            res.json({
+                acknowledged: true,
+                account: updatedAccount,
+            });
+        } else {
+            throw new Error("Soemthing went wrong - does the account exists?");
+        }
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -112,7 +121,7 @@ app.get("/api/accounts/:id", async (req, res) => {
             accounts: response,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             acknowledged: false,
             error: err.message,

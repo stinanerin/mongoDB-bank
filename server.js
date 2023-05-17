@@ -138,7 +138,7 @@ app.post("/api/user/register", async (req, res) => {
     }
 });
 
-app.post("/api/user/logout", (req, res) => {
+app.post("/api/user/logout",  (req, res) => {
     req.session.destroy(() => {
         res.json({
             loggedin: false,

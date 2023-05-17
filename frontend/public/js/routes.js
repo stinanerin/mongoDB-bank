@@ -4,41 +4,41 @@ import accounts from "./views/accounts.js";
 import profile from "./views/profile.js";
 import loginUser from "./views/loginUser.js";
 import registerUser from "./views/registerUser.js";
+import loginReq from "./views/loginReq.js";
 
 // Navigates to a specific url and updates the history
 const navigateTo = (url) => {
     history.pushState(null, null, url);
     router();
-}
-
-const isActive =async() => {
-    const response = await axios.get("/api/user/active");
-    console.log("Session user result: ", response.response);
-    if (response.response.acknowledged) {
-        console.log("active user");
-    }
-    // Implement your authentication check logic here
-    // For example, check if the user has a valid session or token
-    // Return true if the user is authenticated, or false otherwise
-    // You may need to store authentication state in local storage or cookies
 };
 
-isActive()
+const isAuthenticated = async () => {
+    try {
+        // todo! use fetchData
+        const res = await axios.get("/api/user/active");
+        return res.response.data.acknowledged;
+    } catch (error) {
+        return error.response.data.acknowledged;
+    }
+};
+
 // Asynchronous function that loads content for each view/route/path
 const router = async () => {
     const routes = [
         // Root route - view: home class reference
         { path: "/", view: home },
         // Accounts route - View all accounts:
-        { path: "/accounts", view: accounts },
+        { path: "/accounts", view: accounts, requiresAuth: true },
         // Create Account route - View form for creating an account:
         {
             path: "/create-account",
             view: createAccount,
+            requiresAuth: true,
         },
         {
             path: "/profile",
             view: profile,
+            requiresAuth: true,
         },
         {
             path: "/login",
@@ -64,24 +64,45 @@ const router = async () => {
                 route: route,
                 // Does the current url location match a specified route
                 isMatch: location.pathname === route.path,
-            }
+            };
         }
-    })
+    });
 
     // console.log("potentialMatches", potentialMatches);
 
     // Finds the route with the isMatch: true key/value pair
     let match = potentialMatches.find(
         (potentialMatch) => potentialMatch.isMatch
-    )
+    );
 
     // If match is undefined - navigate to home page
     //! maybe remove
     if (!match) {
+        console.log("no match");
+        // todo! 404 view?
         match = {
             route: routes[0],
             isMatch: true,
-        }
+        };
+    }
+    console.log(match);
+    console.log("match.route.requiresAuth", match.route.requiresAuth);
+
+    const isAuth = await isAuthenticated();
+
+    /* If route requires authenticated user & user is not authenticated(signed in),
+    prevent user from viewing route */
+    if (match.route.requiresAuth && !isAuth) {
+        console.log("ej auth");
+        match = {
+            isMatch: true,
+            route: {
+                path: match.route.path,
+                requiresAuth: true,
+                view: loginReq,
+            },
+        };
+        console.log(match);
     }
 
     // Creates new instance of the view: importedClass - at the match route
@@ -95,7 +116,7 @@ const router = async () => {
     if (currentView.addEventListeners) {
         currentView.addEventListeners();
     }
-}
+};
 
 // Adds an event listener for when the user navigates using browser history buttons, and calls the router function.
 window.addEventListener("popstate", router);

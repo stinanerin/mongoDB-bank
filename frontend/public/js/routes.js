@@ -11,7 +11,19 @@ const navigateTo = (url) => {
     router();
 }
 
+const isActive =async() => {
+    const response = await axios.get("/api/user/active");
+    console.log("Session user result: ", response.response);
+    if (response.response.acknowledged) {
+        console.log("active user");
+    }
+    // Implement your authentication check logic here
+    // For example, check if the user has a valid session or token
+    // Return true if the user is authenticated, or false otherwise
+    // You may need to store authentication state in local storage or cookies
+};
 
+isActive()
 // Asynchronous function that loads content for each view/route/path
 const router = async () => {
     const routes = [

@@ -56,6 +56,7 @@ app.use(
 app.get("/api/user/active", (req, res) => {
     console.log("req.session", req.session);
     if (req.session.user) {
+        console.info("active user");
         res.json({
             acknowledged: true,
             user: req.session.user,
@@ -67,8 +68,8 @@ app.get("/api/user/active", (req, res) => {
         });
     }
 });
-//? Remove verb? - crash with register
-app.post("/api/user/login", async(req, res) => {
+//! Remove verb? - crash with register
+app.post("/api/user/login", async (req, res) => {
     try {
         const user = await usersCollection.findOne({
             user: req.body.loginName,
@@ -101,7 +102,7 @@ app.post("/api/user/login", async(req, res) => {
         });
     }
 });
-//? Remove verb? - crash with login
+//! Remove verb? - crash with login
 app.post("/api/user/register", async (req, res) => {
     try {
         console.info("api register");
@@ -138,7 +139,7 @@ app.post("/api/user/register", async (req, res) => {
     }
 });
 
-app.post("/api/user/logout",  (req, res) => {
+app.post("/api/user/logout", restrict, (req, res) => {
     req.session.destroy(() => {
         res.json({
             loggedin: false,
@@ -147,7 +148,7 @@ app.post("/api/user/logout",  (req, res) => {
 });
 
 // Bank accounts - plural
-app.get("/api/accounts", async (req, res) => {
+app.get("/api/accounts", restrict, async (req, res) => {
     try {
         const response = await accountCollection.find({}).toArray();
         res.json({
@@ -163,7 +164,7 @@ app.get("/api/accounts", async (req, res) => {
     }
 });
 
-app.post("/api/accounts", async (req, res) => {
+app.post("/api/accounts", restrict, async (req, res) => {
     console.info("req.body", req.body);
     try {
         const { name, amount } = req.body;
@@ -194,7 +195,7 @@ app.post("/api/accounts", async (req, res) => {
 });
 
 // Bank account - singular
-app.put("/api/accounts/:id/update-amount", async (req, res) => {
+app.put("/api/accounts/:id/update-amount", restrict, async (req, res) => {
     try {
         // Manual check of balance
         const account = await accountCollection.findOne({
@@ -240,7 +241,7 @@ app.put("/api/accounts/:id/update-amount", async (req, res) => {
     }
 });
 
-app.get("/api/accounts/:id", async (req, res) => {
+app.get("/api/accounts/:id", restrict, async (req, res) => {
     try {
         const response = await accountCollection.findOne({
             _id: new ObjectId(req.params.id),
@@ -260,7 +261,7 @@ app.get("/api/accounts/:id", async (req, res) => {
     }
 });
 
-app.delete("/api/accounts/:id", async (req, res) => {
+app.delete("/api/accounts/:id", restrict, async (req, res) => {
     try {
         const response = await accountCollection.deleteOne({
             _id: new ObjectId(req.params.id),
@@ -283,7 +284,7 @@ app.delete("/api/accounts/:id", async (req, res) => {
     }
 });
 
-app.put("/api/accounts/:id/update-fields", async (req, res) => {
+app.put("/api/accounts/:id/update-fields", restrict, async (req, res) => {
     /* todo!
      * Prevent user of api to create new keys
      * Return the updated data if succesfull update?

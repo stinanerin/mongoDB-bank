@@ -96,6 +96,13 @@ input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select)
 .header * {
   color: hsl(0deg, 0%, 100%);
 }
+.header nav {
+  display: flex;
+  flex-direction: default;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: no-wrap;
+}
 
 .form-label {
   margin-bottom: 0.5rem;

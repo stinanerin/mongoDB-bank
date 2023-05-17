@@ -15,29 +15,29 @@
         <!-- js -->
         <script src="/js/api.js" defer></script>
         <script src="/js/helpers.js" defer></script>
-        <script src="/js/account.js" defer></script>
-        <script src="/js/list.js" defer></script>
-        <script src="/js/profilePage.js" defer></script>
-        <script src="/js/routing.js" defer></script>
-
-        <!--!NYTT:  Type module för importer -->
-        <script type="module" src="/js/index.js" defer ></script>
-
+        <script src="/js/logoutUser.js" defer></script>
+        <!-- type module for imports -->
+        <script type="module" src="/js/routes.js" defer ></script>
 
     </head>
 
     <body>
 
         <header class="header">
-            <!-- <h1>Bank</h1> -->
-
-            <!-- data-link, används för api -->
-        <nav class="nav">
-            <a href="/" class="nav__link" data-link><h1>Bank</h1></a>
-            <a href="/accounts" class="nav__link" data-link>Accounts</a>
-            <!--! remove verb? -->
-            <a href="/create-account" class="nav__link" data-link>Create account</a>
-        </nav>
+            <!-- data-link for frontend routing -->
+            <nav class="nav">
+                <a href="/" class="nav__link" data-link><h1>Bank</h1></a>
+                <div>
+                    <form id="logoutUser">
+                        <button class="btn">Log out</button>
+                    </form>
+                    <a href="/login" class="nav__link" data-link>Log in</a>
+                    <a href="/register" class="nav__link" data-link>Register</a>
+                    <a href="/accounts" class="nav__link" data-link>Accounts</a>
+                    <!--! remove verb? -->
+                    <a href="/create-account" class="nav__link" data-link>Create account</a>
+                </div>
+            </nav>
             
         </header>
 
@@ -52,7 +52,7 @@
         </main>
 
 
-
+        
 
         <footer>
 

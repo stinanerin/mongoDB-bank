@@ -138,6 +138,14 @@ app.post("/api/user/register", async (req, res) => {
     }
 });
 
+app.post("/api/user/logout", (req, res) => {
+    req.session.destroy(() => {
+        res.json({
+            loggedin: false,
+        });
+    });
+});
+
 // Bank accounts - plural
 app.get("/api/accounts", async (req, res) => {
     try {

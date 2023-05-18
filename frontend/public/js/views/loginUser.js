@@ -58,6 +58,7 @@ export default class extends AbstractView {
             console.log("Login result: ", res.acknowledged);
 
             if (res.acknowledged) {
+                // Navigates to the route the user rpeviously visited before signing in
                 window.history.back();
             } else {
                 const loginError = document.querySelector("#loginError");

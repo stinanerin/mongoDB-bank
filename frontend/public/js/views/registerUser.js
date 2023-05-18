@@ -22,6 +22,7 @@ export default class extends AbstractView {
                             required
                         />
                     </div>
+                    <div id="registerError"></div>
                     <div class="form-group">
                         <label for="registerPwd" class="form-label">
                             Password<sup>*</sup>
@@ -49,14 +50,35 @@ export default class extends AbstractView {
         const regName = document.querySelector("#registerName").value;
         const regPass = document.querySelector("#registerPwd").value;
 
-        const res = await addData("/api/user/register", {
-            regName,
-            regPass
-        })
-        if (res.acknowledged) {
-            window.history.back();
+        try {
+
+            const res = await addData("/api/user/register", {
+                regName,
+                regPass
+            })
+
+            console.log("Register user res: ",res);
+            if (res.acknowledged) {
+                // Navigates to the route the user rpeviously visited before registering in
+                window.history.back();
+            } else {
+                const registerError = document.querySelector("#registerError");
+                registerError.innerHTML = ` 
+                <div class="alert-danger" role="alert">
+                    <div class="col-auto">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="col">
+                        <span>${res.error}.</span>
+                    </div>
+                </div>`;
+            }
+        } catch (error) {
+            // Handle any network or server errors
+            // todo! display modal?
+            console.error("Login error:", error);
         }
-        console.log("Register user res: ",res);
+
 
     }
 }

@@ -5,6 +5,7 @@ import profile from "./views/profile.js";
 import loginUser from "./views/loginUser.js";
 import registerUser from "./views/registerUser.js";
 import loginReq from "./views/loginReq.js";
+import pageNotFound from "./views/404.js";
 
 // Navigates to a specific url and updates the history
 export const navigateTo = (url) => {
@@ -49,6 +50,10 @@ const router = async () => {
             path: "/register",
             view: registerUser,
         },
+        {
+            path: "/404",
+            view: pageNotFound,
+        },
     ];
 
     // Test each route for potential match
@@ -79,10 +84,8 @@ const router = async () => {
     // If match is undefined - navigate to home page
     //! maybe remove
     if (!match) {
-        console.log("no match");
-        // todo! 404 view?
         match = {
-            route: routes[0],
+            route: routes.find(route => route.path === "/404"),
             isMatch: true,
         };
     }

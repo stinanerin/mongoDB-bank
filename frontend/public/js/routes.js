@@ -16,7 +16,8 @@ const isAuthenticated = async () => {
     try {
         // todo! use fetchData
         const res = await axios.get("/api/user/active");
-        return res.response.data.acknowledged;
+        console.log(res);
+        return res.data.acknowledged;
     } catch (error) {
         return error.response.data.acknowledged;
     }
@@ -89,10 +90,21 @@ const router = async () => {
     console.log("match.route.requiresAuth", match.route.requiresAuth);
 
     const isAuth = await isAuthenticated();
-
-    /* If route requires authenticated user & user is not authenticated(signed in),
-    prevent user from viewing route */
+    
+    // todo! do this entire below block better!!!
+    const loginLink = document.querySelector("#loginLink");
+    const registerLink = document.querySelector("#registerLink");
+    const logoutLink = document.querySelector("#logoutUser");
+    if (isAuth) {
+        addClass([loginLink, registerLink], "hidden");
+        removeClass([logoutLink], "hidden");
+    } else {
+        removeClass([loginLink, registerLink], "hidden");
+        addClass([logoutLink], "hidden");
+    }
     if (match.route.requiresAuth && !isAuth) {
+        /* If route requires authenticated user & user is not authenticated(signed in),
+        prevent user from viewing route */
         console.log("ej auth");
         match = {
             isMatch: true,
@@ -105,6 +117,8 @@ const router = async () => {
         console.log(match);
     }
 
+
+
     // Creates new instance of the view: importedClass - at the match route
     const currentView = new match.route.view();
     // console.log("currentView", match.route);
@@ -116,13 +130,17 @@ const router = async () => {
     if (currentView.addEventListeners) {
         currentView.addEventListeners();
     }
+
+    setCurrentPage();
+
 };
 
 // Adds an event listener for when the user navigates using browser history buttons, and calls the router function.
-window.addEventListener("popstate", router);
+window.addEventListener("popstate", () => router());
 
 // Listens to DOM loads
 document.addEventListener("DOMContentLoaded", () => {
+
     document.body.addEventListener("click", (e) => {
         // Does the link have the [data-link] attribute
         if (e.target.matches("[data-link]")) {

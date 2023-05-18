@@ -1,6 +1,6 @@
-// * {
-//     outline: 1px solid pink;
-// }
+* {
+    outline: 1px solid pink;
+}
 
 *, *:after, *:before {
     box-sizing: border-box;
@@ -15,6 +15,10 @@ h1, h2, h3, h4, h5, h6 {
     &:not(h1) {
         margin-bottom: 0.5em;
     }
+}
+
+.hidden {
+    display: none;
 }
 
 body {
@@ -34,6 +38,17 @@ main {
     }
 }
 
+.link {
+    font-family: $body;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 0;
+    border-bottom: 1px solid $text-contrast;
+    &:hover {
+        border-width: 2px;
+        font-family: $body-b;
+    }
+}
 
 .btn {
     border: 1px solid black;
@@ -50,7 +65,7 @@ main {
 input, input:active, input:focus, 
 input:-webkit-autofill, 
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active, input[data-autocompleted], select{
+input:-webkit-autofill:active, input[data-autocompleted], select, button{
     // Reset
     border: none;
     border-radius: 0;

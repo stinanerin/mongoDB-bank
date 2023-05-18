@@ -27,8 +27,9 @@
         padding: 1.5rem 1rem;
         .nav {
             @include flex(row, space-between, center);
-            .header__right {    
-                width: 60%;
+            .header__right {
+                justify-content: space-between;  
+                width: 70%;
                 .link {
                     font-size: 1rem;
                 }  

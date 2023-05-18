@@ -25,6 +25,9 @@ export default class extends AbstractView {
                             <label class="form-label" for="transactionInput">Enter amount:</label>
                             <input class="form-control" id="transactionInput" type="number" placeholder="Enter amount " required/>
                         </div>
+
+                        <div id="transactionError" ></div>
+
                         <button type="submit" class="btn" name="action" value="deposit" aria-label="Make a deposit">Deposit</button>
                         <button type="submit" class="btn" name="action" value="withdraw" aria-label="Make a withdrawal">Withdraw</button>
                     </form>
@@ -70,16 +73,28 @@ export default class extends AbstractView {
         }
 
         try {
-            const response = await updateAccount(
+            const res = await updateAccount(
                 `/api/accounts/${this.id}/update-amount`,
                 transactionAmount
-            );
-            if (response) {
+            )
+            if (res) {
                 await this.updateUI();
+            } else {
+                throw new Error();
             }
         } catch (error) {
-            // todo!
             console.error("Error occurred:", error);
+            const transactionError =
+                document.querySelector("#transactionError");
+            transactionError.innerHTML = ` 
+            <div class="alert-danger" role="alert">
+                <div class="col-auto">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="col">
+                    <span>Something went wrong with the transaction. Please try again later.</span>
+                </div>
+            </div>`;
         }
     }
     async updateUI() {
@@ -105,7 +120,5 @@ export default class extends AbstractView {
             // todo!
             console.error("Error occurred:", error);
         }
-
-
     }
 }

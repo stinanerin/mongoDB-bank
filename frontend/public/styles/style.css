@@ -149,7 +149,8 @@ input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select)
     flex-wrap: no-wrap;
   }
   .header .nav .header__right {
-    width: 60%;
+    justify-content: space-between;
+    width: 70%;
   }
   .header .nav .header__right .link {
     font-size: 1rem;

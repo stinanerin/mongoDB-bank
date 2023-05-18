@@ -23,7 +23,7 @@ const updateAccount = async(route, value) => {
         return res.data.account
     } catch (error) {
         // todo! Display modal?
-        console.log(error.response.data.error);
+        return error.response.data;
     }
 }
 

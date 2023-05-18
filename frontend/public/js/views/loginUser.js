@@ -22,6 +22,7 @@ export default class extends AbstractView {
                             required
                         />
                     </div>
+                    <div id="loginError"></div>
                     <div class="form-group">
                         <label for="loginPwd" class="form-label">
                             Password<sup>*</sup>
@@ -45,19 +46,35 @@ export default class extends AbstractView {
     }
     async loginUser(e) {
         e.preventDefault();
-
         const loginName = document.querySelector("#loginName").value;
         const loginPass = document.querySelector("#loginPwd").value;
         console.log(loginName, loginPass);
 
-        const res = await addData("/api/user/login", {
-            loginName,
-            loginPass,
-        });
-        if(res.acknowledged) {
-            window.history.back();
-        }
-        console.log("Login result: ", res.acknowledged);
+        try {
+            const res = await addData("/api/user/login", {
+                loginName,
+                loginPass,
+            });
+            console.log("Login result: ", res.acknowledged);
 
+            if (res.acknowledged) {
+                window.history.back();
+            } else {
+                const loginError = document.querySelector("#loginError");
+                loginError.innerHTML = ` 
+                <div class="alert-danger" role="alert">
+                    <div class="col-auto">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="col">
+                        <span>Invalid username or password.</span>
+                    </div>
+                </div>`;
+            }
+        } catch (error) {
+            // Handle any network or server errors
+            // todo! display modal?
+            console.error("Login error:", error);
+        }
     }
 }

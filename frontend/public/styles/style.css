@@ -44,6 +44,18 @@ main {
   margin-bottom: 1em;
 }
 
+.link {
+  font-family: AnonymousPro;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0;
+  border-bottom: 1px solid hsl(0deg, 0%, 100%);
+}
+.link:hover {
+  border-width: 2px;
+  font-family: AnonymousPro-Bold;
+}
+
 .btn {
   border: 1px solid black;
   color: hsl(0deg, 0%, 100%);
@@ -59,7 +71,7 @@ main {
 input, input:active, input:focus,
 input:-webkit-autofill,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active, input[data-autocompleted], select {
+input:-webkit-autofill:active, input[data-autocompleted], select, button {
   border: none;
   border-radius: 0;
   background-color: transparent;
@@ -70,21 +82,21 @@ input:-webkit-autofill:active, input[data-autocompleted], select {
 input:not(select), input:active:not(select), input:focus:not(select),
 input:-webkit-autofill:not(select),
 input:-webkit-autofill:focus:not(select),
-input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select), select:not(select) {
+input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select), select:not(select), button:not(select) {
   -webkit-appearance: none;
   appearance: none;
 }
 input::placeholder, input:active::placeholder, input:focus::placeholder,
 input:-webkit-autofill::placeholder,
 input:-webkit-autofill:focus::placeholder,
-input:-webkit-autofill:active::placeholder, input[data-autocompleted]::placeholder, select::placeholder {
+input:-webkit-autofill:active::placeholder, input[data-autocompleted]::placeholder, select::placeholder, button::placeholder {
   font-family: AnonymousPro;
   color: hsl(0deg, 0%, 0%);
 }
 input:not(select), input:active:not(select), input:focus:not(select),
 input:-webkit-autofill:not(select),
 input:-webkit-autofill:focus:not(select),
-input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select), select:not(select) {
+input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select), select:not(select), button:not(select) {
   padding: 0.5rem 1.5rem;
 }
 
@@ -94,18 +106,54 @@ input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select)
   background: linear-gradient(270deg, rgba(13, 222, 58, 0.344) 0%, rgba(255, 255, 255, 0) 100%);
   background: -webkit-linear-gradient(270deg, rgba(13, 222, 58, 0.344) 0%, rgba(255, 255, 255, 0) 100%);
   background-color: #88A17B;
-  padding: 1.5rem 1rem;
-  border-bottom: 1px solid hsl(0deg, 0%, 100%);
+  padding: 0.5rem 0;
 }
 .header * {
   color: hsl(0deg, 0%, 100%);
 }
-.header nav {
+.header .nav {
   display: flex;
-  flex-direction: default;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   flex-wrap: no-wrap;
+}
+.header .nav .header__left {
+  margin-bottom: 0.5em;
+}
+.header .nav .header__right {
+  display: flex;
+  flex-direction: default;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: no-wrap;
+  gap: min(10%, 10px);
+  width: 100%;
+}
+.header .nav .header__right .link {
+  font-size: 0.85rem;
+}
+.header .nav .link.active {
+  font-family: AnonymousPro-Bold;
+  border-width: 2px;
+}
+@media (width >= 576px) {
+  .header {
+    padding: 1.5rem 1rem;
+  }
+  .header .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: no-wrap;
+  }
+  .header .nav .header__right {
+    width: 60%;
+  }
+  .header .nav .header__right .link {
+    font-size: 1rem;
+  }
 }
 
 .form-label {

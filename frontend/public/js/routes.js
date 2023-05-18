@@ -117,6 +117,8 @@ const router = async () => {
         console.log(match);
     }
 
+
+
     // Creates new instance of the view: importedClass - at the match route
     const currentView = new match.route.view();
     // console.log("currentView", match.route);
@@ -128,13 +130,17 @@ const router = async () => {
     if (currentView.addEventListeners) {
         currentView.addEventListeners();
     }
+    
+    setCurrentPage();
+
 };
 
 // Adds an event listener for when the user navigates using browser history buttons, and calls the router function.
-window.addEventListener("popstate", router);
+window.addEventListener("popstate", () => router);
 
 // Listens to DOM loads
 document.addEventListener("DOMContentLoaded", () => {
+
     document.body.addEventListener("click", (e) => {
         // Does the link have the [data-link] attribute
         if (e.target.matches("[data-link]")) {

@@ -23,3 +23,25 @@ const addClass = (arr, aClass) => {
 const removeClass = (arr, aClass) => {
     arr.forEach((elem) => elem.classList.remove(aClass));
 };
+
+const removeAttribute = (arr, attributeName) => {
+    arr.forEach((element) => {
+        element.removeAttribute(attributeName);
+    })
+}
+
+const setCurrentPage = () => {
+    const currentPath = location.pathname;
+    const navLinks = document.querySelectorAll("[data-link]");
+
+    removeClass(navLinks, "active");
+    removeAttribute(navLinks, "aria-current");
+
+    const activeLink = [...navLinks].find(
+        (link) => link.pathname === currentPath
+    )
+
+    addClass([activeLink], "active");
+    activeLink.setAttribute("aria-current", "page");
+
+}

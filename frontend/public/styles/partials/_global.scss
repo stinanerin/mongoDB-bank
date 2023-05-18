@@ -39,6 +39,19 @@ main {
 }
 
 
+.link {
+    font-family: $body;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 0;
+    border-bottom: 1px solid $text-contrast;
+    &:hover {
+        border-width: 2px;
+        font-family: $body-b;
+    }
+}
+
+
 .btn {
     border: 1px solid black;
     color: $p-white;
@@ -54,7 +67,7 @@ main {
 input, input:active, input:focus, 
 input:-webkit-autofill, 
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active, input[data-autocompleted], select{
+input:-webkit-autofill:active, input[data-autocompleted], select, button{
     // Reset
     border: none;
     border-radius: 0;

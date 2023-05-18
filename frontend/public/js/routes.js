@@ -17,7 +17,7 @@ const isAuthenticated = async () => {
     try {
         // todo! use fetchData
         const res = await axios.get("/api/user/active");
-        console.log(res);
+        // console.log(res);
         return res.data.acknowledged;
     } catch (error) {
         return error.response.data.acknowledged;
@@ -74,15 +74,12 @@ const router = async () => {
         }
     });
 
-    // console.log("potentialMatches", potentialMatches);
-
     // Finds the route with the isMatch: true key/value pair
     let match = potentialMatches.find(
         (potentialMatch) => potentialMatch.isMatch
     );
 
     // If match is undefined - navigate to home page
-    //! maybe remove
     if (!match) {
         match = {
             route: routes.find(route => route.path === "/404"),

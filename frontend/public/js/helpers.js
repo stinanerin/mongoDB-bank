@@ -41,7 +41,8 @@ const setCurrentPage = () => {
         (link) => link.pathname === currentPath
     )
 
-    addClass([activeLink], "active");
-    activeLink.setAttribute("aria-current", "page");
-
+    if (activeLink) {
+        addClass([activeLink], "active");
+        activeLink.setAttribute("aria-current", "page");
+    } 
 }

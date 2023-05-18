@@ -4,14 +4,14 @@ import { navigateTo } from "../routes.js";
 export default class extends AbstractView {
     constructor() {
         super();
-        this.setTitle("Create Account");
+        this.setTitle("Create Bank Account");
     }
 
     async getHtml() {
         return `
             <div class="form-wrapper">
 
-                <h2>Create account</h2>
+                <h2>Create bank account</h2>
                 
                 <form action="" class="form" id="createAccount" >
 

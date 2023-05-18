@@ -62,10 +62,15 @@ main {
   background-color: hsl(0deg, 0%, 0%);
   padding: 0.5rem 1rem;
   font-family: AnonymousPro-Bold;
+  font-size: 0.9rem;
 }
 .btn:hover {
   color: hsl(0deg, 0%, 0%);
   background-color: hsl(0deg, 0%, 100%);
+}
+
+.btn-wrapper {
+  margin: 1rem 0;
 }
 
 input, input:active, input:focus,
@@ -98,10 +103,6 @@ input:-webkit-autofill:not(select),
 input:-webkit-autofill:focus:not(select),
 input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select), select:not(select), button:not(select) {
   padding: 0.5rem 1.5rem;
-}
-
-.btn-wrapper {
-  margin: 1rem 0;
 }
 
 .header {

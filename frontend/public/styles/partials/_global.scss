@@ -56,10 +56,15 @@ main {
     background-color: $p-black;
     padding: 0.5rem 1rem;
     font-family: $body-b;
+    font-size: 0.9rem;
     &:hover {
         color: $p-black;
         background-color: $p-white;
     }
+}
+
+.btn-wrapper {
+    margin: 1rem 0;
 }
 
 input, input:active, input:focus, 
@@ -87,6 +92,3 @@ input:-webkit-autofill:active, input[data-autocompleted], select, button{
     }
 }
 
-.btn-wrapper {
-    margin: 1rem 0;
-}

@@ -10,7 +10,7 @@ export default class extends AbstractView {
            <div>
                 <h2>Login Required</h2>
                 <p>Please login to access this page.</p>
-                <a href="/login" class="btn" data-link>Login</a>
+                <div class="btn-wrapper"><a href="/login" class="btn" data-link>Login</a></div>
             </div>
         `;
     }

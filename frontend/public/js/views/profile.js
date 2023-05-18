@@ -37,7 +37,7 @@ export default class extends AbstractView {
                     <form id="deleteForm">
                         <h4>Delete Account</h4>
                         
-                        <div id="transactionError" ></div>
+                        <div id="deleteAccError" ></div>
 
                         <div class="btn-wrapper"><button class="btn" aria-label="Delete account">Delete</button></div>
                     </form>
@@ -45,8 +45,6 @@ export default class extends AbstractView {
             </div>`
             return div.outerHTML;
         } else {
-            // todo! account not found
-            //! render 404?
             return `<p>The account no longer exists</p>`;
         }
     }
@@ -79,7 +77,7 @@ export default class extends AbstractView {
 
         try {
             const res = await updateAccount(
-                `/api/accounts/${this.id}/upd3ate-amount`,
+                `/api/accounts/${this.id}/update-amount`,
                 transactionAmount
             )
             if (res.acknowledged) {
@@ -108,22 +106,35 @@ export default class extends AbstractView {
             // Re-add event listeners after updating the UI since they are "removed" when reloading the HTML
             this.addEventListeners();
         } catch (error) {
-            // todo!
+            // todo! modal - can something go wrong here?
             console.error("Error occurred:", error);
         }
     }
     async deleteAccount(e) {
         e.preventDefault();
-
         try {
-            const response = await deleteDocument(`/api/accounts/${this.id}`);
-            if(response) {
+            const res = await deleteDocument(`/api/accounts/${this.id}`);
+            console.log(res);
+            if (res.acknowledged) {
                 // todo! Some succes msg
-                this.getHtml();
+                console.log("hejhej");
+                console.log(this);
+                document.querySelector("#app").innerHTML = await this.getHtml();
+            } else {
+                throw new Error()
             }
         } catch (error) {
-            // todo!
             console.error("Error occurred:", error);
+            const deleteAccError = document.querySelector("#deleteAccError");
+            deleteAccError.innerHTML = ` 
+            <div class="alert-danger" role="alert">
+                <div class="col-auto">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="col">
+                    <span>Something went wrong when deleteing the account. Please try again later.</span>
+                </div>
+            </div>`;
         }
     }
 }

@@ -15,3 +15,11 @@ const clearNumericInput = (id) => {
     const cleansedValue = elemValue.replace(/[^0-9]/g, "");
     elem.value = cleansedValue;
 };
+
+const addClass = (arr, aClass) => {
+    arr.forEach((elem) => elem.classList.add(aClass));
+};
+
+const removeClass = (arr, aClass) => {
+    arr.forEach((elem) => elem.classList.remove(aClass));
+};

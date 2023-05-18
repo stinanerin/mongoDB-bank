@@ -28,16 +28,21 @@ export default class extends AbstractView {
 
                         <div id="transactionError" ></div>
 
-                        <button type="submit" class="btn" name="action" value="deposit" aria-label="Make a deposit">Deposit</button>
-                        <button type="submit" class="btn" name="action" value="withdraw" aria-label="Make a withdrawal">Withdraw</button>
+                        <div class="btn-wrapper">
+                            <button type="submit" class="btn" name="action" value="deposit" aria-label="Make a deposit">Deposit</button>
+                            <button type="submit" class="btn" name="action" value="withdraw" aria-label="Make a withdrawal">Withdraw</button>
+                        </div>
                     </form>
                         
                     <form id="deleteForm">
                         <h4>Delete Account</h4>
-                        <button class="btn" aria-label="Delete account">Delete</button>
+                        
+                        <div id="transactionError" ></div>
+
+                        <div class="btn-wrapper"><button class="btn" aria-label="Delete account">Delete</button></div>
                     </form>
                 </div>
-            </div>`;
+            </div>`
             return div.outerHTML;
         } else {
             // todo! account not found
@@ -74,10 +79,10 @@ export default class extends AbstractView {
 
         try {
             const res = await updateAccount(
-                `/api/accounts/${this.id}/update-amount`,
+                `/api/accounts/${this.id}/upd3ate-amount`,
                 transactionAmount
             )
-            if (res) {
+            if (res.acknowledged) {
                 await this.updateUI();
             } else {
                 throw new Error();

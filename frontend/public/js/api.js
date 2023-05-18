@@ -19,8 +19,7 @@ const updateAccount = async(route, value) => {
         const res = await axios.put(route, {
             amount: Number(value),
         })
-
-        return res.data.account
+        return res.data
     } catch (error) {
         // todo! Display modal?
         return error.response.data;

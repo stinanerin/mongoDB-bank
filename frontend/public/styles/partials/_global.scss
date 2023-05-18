@@ -1,6 +1,6 @@
-// * {
-//     outline: 1px solid pink;
-// }
+* {
+    outline: 1px solid pink;
+}
 
 *, *:after, *:before {
     box-sizing: border-box;
@@ -38,7 +38,6 @@ main {
     }
 }
 
-
 .link {
     font-family: $body;
     font-size: 1rem;
@@ -50,7 +49,6 @@ main {
         font-family: $body-b;
     }
 }
-
 
 .btn {
     border: 1px solid black;

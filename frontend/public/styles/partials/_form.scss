@@ -1,3 +1,13 @@
+.form {
+    width: min(100%, 350px);
+}
+
+.form-wrapper {
+    @include flex(column, center, center);
+    width: 100%;
+}
+
+
 .form-label {
     margin-bottom: 0.5rem;
     border-bottom: 1px solid hsl(0deg, 0%, 0%);
@@ -32,15 +42,6 @@ input:-webkit-autofill:active, input[data-autocompleted] {
     display: block;
     width: 100%;
     line-height: 1.5;
-}
-
-.form {
-    width: min(100%, 350px);
-}
-
-.form-wrapper {
-    @include flex(column, center, center);
-    width: 100%;
 }
 
 .form-text {

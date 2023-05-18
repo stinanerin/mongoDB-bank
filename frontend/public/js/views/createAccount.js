@@ -1,16 +1,17 @@
 import AbstractView from "./AbstractView.js";
+import { navigateTo } from "../routes.js";
 
 export default class extends AbstractView {
     constructor() {
         super();
-        this.setTitle("Create Account");
+        this.setTitle("Create Bank Account");
     }
 
     async getHtml() {
         return `
             <div class="form-wrapper">
 
-                <h2>Create account</h2>
+                <h2>Create bank account</h2>
                 
                 <form action="" class="form" id="createAccount" >
 
@@ -18,6 +19,8 @@ export default class extends AbstractView {
                         <label for="accountName" class="form-label">Choose name for account<sup>*</sup></label>
                         <input class="form-control" type="text" id="accountName" placeholder="Enter account name" required />
                     </div>
+
+                    <div id="createAccError"></div>
 
                     <div class="form-group">
                         <label for="accountAmount" class="form-label">Amount<sup>*</sup> </label>
@@ -34,14 +37,39 @@ export default class extends AbstractView {
         document.querySelector("#createAccount").addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const accName = document.querySelector("#accountName").value;
-            const accAmount = document.querySelector("#accountAmount").value;
-            const response = await addData("/api/accounts", {
-                accName,
-                accAmount,
-            });
-            console.log(response);
-            // todo! succes creating account
+            try {
+                const accName = document.querySelector("#accountName").value;
+                const accAmount = document.querySelector("#accountAmount").value;
+                const res = await addData("/api/accounts", {
+                    accName,
+                    accAmount,
+                });
+
+                if(res.acknowledged) {
+                    // todo! succes creating account
+                    navigateTo(location.pathname = "/accounts")
+
+                } else {
+                    const createAccError =
+                        document.querySelector("#createAccError");
+                    createAccError.innerHTML = ` 
+                    <div class="alert-danger" role="alert">
+                        <div class="col-auto">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="col">
+                            <span>${res.error}</span>
+                        </div>
+                    </div>`;
+                }
+
+            } catch (error) {
+                // Handle any network or server errors
+                // todo! display modal?
+                console.error("Create bank account error:", error);
+            }
+
+
         });
     }
 }

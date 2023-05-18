@@ -19,11 +19,10 @@ const updateAccount = async(route, value) => {
         const res = await axios.put(route, {
             amount: Number(value),
         })
-
-        return res.data.account
+        return res.data
     } catch (error) {
         // todo! Display modal?
-        console.log(error.response.data.error);
+        return error.response.data;
     }
 }
 
@@ -44,11 +43,10 @@ const fetchData = async(route) => {
 const deleteDocument = async(route) => {
     try {
         const res = await axios.delete(route);
-        console.log(res);
-        console.log(res.data.message);
-        return res.data.message
+        return res.data
     } catch (error) {
         // todo! Display modal?
-        console.log(error.response.data.error);
+        console.log(error);
+        return error.response.data
     }
 }

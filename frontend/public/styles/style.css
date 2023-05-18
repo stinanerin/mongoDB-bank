@@ -11,10 +11,6 @@
   font-family: AnonymousPro-Italic;
   src: url("../assets/fonts/AnonymousPro-Italic.ttf");
 }
-* {
-  outline: 1px solid pink;
-}
-
 *, *:after, *:before {
   box-sizing: border-box;
 }
@@ -104,6 +100,10 @@ input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select)
   padding: 0.5rem 1.5rem;
 }
 
+.btn-wrapper {
+  margin: 1rem 0;
+}
+
 .header {
   /* fallback for old browsers */
   background: hsl(0deg, 0%, 100%);
@@ -153,7 +153,8 @@ input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select)
     flex-wrap: no-wrap;
   }
   .header .nav .header__right {
-    width: 60%;
+    justify-content: space-between;
+    width: 70%;
   }
   .header .nav .header__right .link {
     font-size: 1rem;
@@ -209,4 +210,21 @@ input:-webkit-autofill:active, input[data-autocompleted] {
   margin-top: 0.25rem;
   font-size: 0.7em;
   color: #838586;
+}
+
+.alert-danger {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: no-wrap;
+  background-color: hsl(355deg, 70%, 91%);
+  border: 1px solid hsl(354deg, 100%, 51%);
+  color: hsl(354deg, 100%, 51%);
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.alert-danger div:last-child {
+  padding: 0 12px;
 }/*# sourceMappingURL=style.css.map */

@@ -165,18 +165,18 @@ app.get("/api/accounts", restrict, async (req, res) => {
 });
 
 app.post("/api/accounts", restrict, async (req, res) => {
-    console.info("req.body", req.body);
+    console.log(req.body);
     try {
-        const { name, amount } = req.body;
+        const { accName, accAmount } = req.body;
 
         // Manual validation
-        if (typeof name !== "string" || isNaN(parseFloat(amount))) {
+        if (isNaN(parseFloat(accAmount))) {
             throw new Error("Invalid data format");
         }
 
         const account = {
-            name: name,
-            amount: parseFloat(amount),
+            name: accName,
+            amount: parseFloat(accAmount),
         };
 
         await accountCollection.insertOne(account);

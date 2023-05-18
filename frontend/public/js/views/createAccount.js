@@ -1,4 +1,5 @@
 import AbstractView from "./AbstractView.js";
+import { navigateTo } from "../routes.js";
 
 export default class extends AbstractView {
     constructor() {
@@ -43,10 +44,10 @@ export default class extends AbstractView {
                     accName,
                     accAmount,
                 });
-                console.log(res);
 
                 if(res.acknowledged) {
                     // todo! succes creating account
+                    navigateTo(location.pathname = "/accounts")
 
                 } else {
                     const createAccError =

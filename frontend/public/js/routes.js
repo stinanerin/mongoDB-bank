@@ -7,7 +7,7 @@ import registerUser from "./views/registerUser.js";
 import loginReq from "./views/loginReq.js";
 
 // Navigates to a specific url and updates the history
-const navigateTo = (url) => {
+export const navigateTo = (url) => {
     history.pushState(null, null, url);
     router();
 };

@@ -51,6 +51,9 @@ export default class extends AbstractView {
             regName,
             regPass
         })
+        if (res.acknowledged) {
+            window.history.back();
+        }
         console.log("Register user res: ",res);
 
     }

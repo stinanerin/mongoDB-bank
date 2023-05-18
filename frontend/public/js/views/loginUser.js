@@ -52,8 +52,10 @@ export default class extends AbstractView {
             loginName,
             loginPass,
         });
-
-        console.log("Login result: ", res);
+        if(res.acknowledged) {
+            window.history.back();
+        }
+        console.log("Login result: ", res.acknowledged);
 
     }
 }

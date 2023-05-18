@@ -16,7 +16,8 @@ const isAuthenticated = async () => {
     try {
         // todo! use fetchData
         const res = await axios.get("/api/user/active");
-        return res.response.data.acknowledged;
+        console.log(res);
+        return res.data.acknowledged;
     } catch (error) {
         return error.response.data.acknowledged;
     }

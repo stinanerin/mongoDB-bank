@@ -89,10 +89,21 @@ const router = async () => {
     console.log("match.route.requiresAuth", match.route.requiresAuth);
 
     const isAuth = await isAuthenticated();
-
-    /* If route requires authenticated user & user is not authenticated(signed in),
-    prevent user from viewing route */
+    
+    // todo! do this entire below block better!!!
+    const loginLink = document.querySelector("#loginLink");
+    const registerLink = document.querySelector("#registerLink");
+    const logoutLink = document.querySelector("#logoutUser");
+    if (isAuth) {
+        addClass([loginLink, registerLink], "hidden");
+        removeClass([logoutLink], "hidden");
+    } else {
+        removeClass([loginLink, registerLink], "hidden");
+        addClass([logoutLink], "hidden");
+    }
     if (match.route.requiresAuth && !isAuth) {
+        /* If route requires authenticated user & user is not authenticated(signed in),
+        prevent user from viewing route */
         console.log("ej auth");
         match = {
             isMatch: true,

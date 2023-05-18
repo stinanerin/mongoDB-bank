@@ -25,6 +25,10 @@ h1:not(h1), h2:not(h1), h3:not(h1), h4:not(h1), h5:not(h1), h6:not(h1) {
   margin-bottom: 0.5em;
 }
 
+.hidden {
+  display: none;
+}
+
 body {
   font-family: AnonymousPro;
   color: hsl(0deg, 0%, 0%);

@@ -1,0 +1,24 @@
+:modal {
+    background-color: $primary;
+    max-width: 50ch;
+    padding: 3rem 2rem;
+
+    border: 0;
+    box-shadow: 0 5px 1rem rgba(0, 0, 0, 0.53);
+
+    @include flex(column, center, start);
+    gap: 1rem;
+    * {
+        color: $p-white;
+    }
+    &::backdrop {
+        backdrop-filter: blur(1px);
+    }
+    p {
+        margin: 0;
+    }
+    .close-modal {
+        width: 100%;
+        @include flex(default, end);
+    }
+}

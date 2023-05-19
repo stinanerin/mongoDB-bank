@@ -6,21 +6,12 @@ import loginUser from "./views/loginUser.js";
 import registerUser from "./views/registerUser.js";
 import loginReq from "./views/loginReq.js";
 import pageNotFound from "./views/404.js";
-
+import { isAuthenticated } from "./isAuthenticated.js";
 
 // Navigates to a specific url and updates the history
 export const navigateTo = (url) => {
     history.pushState(null, null, url);
     router();
-};
-const isAuthenticated = async () => {
-    try {
-        const res = await fetchData("/api/user/active");
-        console.log(res);
-        return res.acknowledged;
-    } catch (error) {
-        console.log(error);
-    }
 };
 
 // Asynchronous function that loads content for each view/route/path
@@ -81,7 +72,7 @@ const router = async () => {
     // If match is undefined - navigate to home page
     if (!match) {
         match = {
-            route: routes.find(route => route.path === "/404"),
+            route: routes.find((route) => route.path === "/404"),
             isMatch: true,
         };
     }
@@ -89,7 +80,7 @@ const router = async () => {
     console.log("match.route.requiresAuth", match.route.requiresAuth);
 
     const isAuth = await isAuthenticated();
-    
+
     // todo! do this entire below block better!!!
     const loginLink = document.querySelector("#loginLink");
     const registerLink = document.querySelector("#registerLink");
@@ -129,7 +120,6 @@ const router = async () => {
     }
 
     setCurrentPage();
-
 };
 
 // Adds an event listener for when the user navigates using browser history buttons, and calls the router function.
@@ -137,7 +127,6 @@ window.addEventListener("popstate", () => router());
 
 // Listens to DOM loads
 document.addEventListener("DOMContentLoaded", () => {
-
     document.body.addEventListener("click", (e) => {
         // Does the link have the [data-link] attribute
         if (e.target.matches("[data-link]")) {

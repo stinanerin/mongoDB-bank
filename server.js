@@ -52,14 +52,16 @@ app.use(
 
 // ------------------- Routes -------------------
 // Users
-
 app.get("/api/user/active", (req, res) => {
     console.log("req.session", req.session);
     if (req.session.user) {
         console.info("active user");
+        const userId = req.session.userId; // Store the user ID temporarily
+        delete req.session.userId; // Remove the user ID from the session
         res.json({
             acknowledged: true,
             user: req.session.user,
+            userId: userId, // Include the user ID in the JSON response
         });
     } else {
         res.status(401).json({
@@ -82,6 +84,8 @@ app.post("/api/user/login", async (req, res) => {
                 // sätts på req, ej res.
                 // sessionsobejktet finns ej på res
                 req.session.user = user.user;
+                req.session.userId = user._id;
+
                 // svara till klienten - login namnet
 
                 res.json({
@@ -122,6 +126,7 @@ app.post("/api/user/register", async (req, res) => {
             if (newUser.acknowledged) {
                 console.log(newUser);
                 req.session.user = req.body.regName;
+                req.session.userId = newUser.insertedId;
                 res.json({
                     acknowledged: true,
                     user: req.body.regName,

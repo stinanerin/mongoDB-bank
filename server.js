@@ -52,7 +52,7 @@ app.use(
 
 // ------------------- Routes -------------------
 //! Users
-// Get active user 
+// Get active user
 app.get("/api/user/active", (req, res) => {
     console.log("req.session", req.session);
     if (req.session.user) {
@@ -154,7 +154,9 @@ app.post("/api/user/logout", restrict, (req, res) => {
 // Get all accounts - for authenticated user
 app.get("/api/accounts", restrict, async (req, res) => {
     try {
-        const response = await accountCollection.find({}).toArray();
+        const response = await accountCollection
+            .find({ user_id: req.session.userId })
+            .toArray();
         res.json({
             acknowledged: true,
             accounts: response,
@@ -201,7 +203,7 @@ app.post("/api/accounts", restrict, async (req, res) => {
 });
 
 //! Bank account - singular
-// Update amount for one bank account - authenticated 
+// Update amount for one bank account - authenticated
 app.put("/api/accounts/:id/update-amount", restrict, async (req, res) => {
     try {
         // Manual check of balance
@@ -248,10 +250,10 @@ app.put("/api/accounts/:id/update-amount", restrict, async (req, res) => {
     }
 });
 
-// Get one account - authenticated 
+// Get one account - authenticated
 app.get("/api/accounts/:id", restrict, async (req, res) => {
     try {
-        //todo some check that it is the current session user?
+        // todo! some check that it is the current session user? - try getting a id for not user via postman
         const response = await accountCollection.findOne({
             _id: new ObjectId(req.params.id),
         });
@@ -270,7 +272,7 @@ app.get("/api/accounts/:id", restrict, async (req, res) => {
     }
 });
 
-// Delete one account - authenticated 
+// Delete one account - authenticated
 app.delete("/api/accounts/:id", restrict, async (req, res) => {
     try {
         const response = await accountCollection.deleteOne({
@@ -294,7 +296,7 @@ app.delete("/api/accounts/:id", restrict, async (req, res) => {
     }
 });
 
-// Update fields one account - authenticated 
+// Update fields one account - authenticated
 app.put("/api/accounts/:id/update-fields", restrict, async (req, res) => {
     /* todo!
      * Prevent user of api to create new keys

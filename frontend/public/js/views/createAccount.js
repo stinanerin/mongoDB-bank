@@ -1,6 +1,7 @@
 import AbstractView from "./AbstractView.js";
 import { navigateTo } from "../routes.js";
 import { displayAlert } from "../components/alert.js";
+import { displayModal } from "../components/modal.js";
 
 export default class extends AbstractView {
     constructor() {
@@ -45,7 +46,7 @@ export default class extends AbstractView {
                         document.querySelector("#accountName").value;
                     const accAmount =
                         document.querySelector("#accountAmount").value;
-                    const res = await addData("/api/acc,ounts", {
+                    const res = await addData("/api/accounts", {
                         accName,
                         accAmount,
                     });
@@ -55,15 +56,17 @@ export default class extends AbstractView {
                     } else {
                         const createAccError =
                             document.querySelector("#createAccError");
-                        const errMsg = res.error
-                            ? res.error
-                            : "Something went wrong, please try again later.";
-                        displayAlert(createAccError, errMsg);
+                        
+                        if (res.error) {
+                            displayAlert(createAccError, res.error);
+                        } else {
+                            throw new Error();
+                        }
                     }
                 } catch (error) {
                     // Handle any network or server errors
                     console.error("Create bank account error:", error);
-                    displayModal(error);
+                    displayModal();
                 }
             });
     }

@@ -89,10 +89,10 @@ app.post("/api/user/login", async (req, res) => {
                     user: user.user,
                 });
             } else {
-                throw new Error("Unauthorized");
+                throw new Error("Invalid username or password.");
             }
         } else {
-            throw new Error("Unauthorized");
+            throw new Error("Invalid username or password.");
         }
     } catch (err) {
         console.error(err);

@@ -1,5 +1,6 @@
 import AbstractView from "./AbstractView.js";
 import { displayAlert } from "../components/alert.js";
+import { displayModal } from "../components/modal.js";
 
 
 export default class extends AbstractView {
@@ -50,20 +51,20 @@ export default class extends AbstractView {
         e.preventDefault();
         const loginName = document.querySelector("#loginName").value;
         const loginPass = document.querySelector("#loginPwd").value;
-        console.log(loginName, loginPass);
 
         try {
             const res = await addData("/api/user/login", {
                 loginName,
                 loginPass,
             });
-            console.log("Login result: ", res.acknowledged);
             if (res.acknowledged) {
                 // Navigates to the route the user previously visited before signing in
                 window.history.back();
-            } else {
+            } else if(res.error === "Invalid username or password.") {
                 const loginError = document.querySelector("#loginError");
-                displayAlert(loginError, "Invalid username or password.");
+                displayAlert(loginError, res.error);
+            } else {
+                throw new Error(res.error);
             }
         } catch (error) {
             // Handle any network or server errors

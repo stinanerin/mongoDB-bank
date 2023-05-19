@@ -1,5 +1,6 @@
 import AbstractView from "./AbstractView.js";
 import { displayAlert } from "../components/alert.js";
+import { displayModal } from "../components/modal.js";
 
 export default class extends AbstractView {
     constructor() {
@@ -59,7 +60,7 @@ export default class extends AbstractView {
 
             console.log("Register user res: ", res);
             if (res.acknowledged) {
-                // Navigates to the route the user rpeviously visited before registering in
+                // Navigates to the route the user previously visited before registering in
                 window.history.back();
             } else {
                 const registerError = document.querySelector("#registerError");
@@ -68,7 +69,9 @@ export default class extends AbstractView {
         } catch (error) {
             // Handle any network or server errors
             console.error("Login error:", error);
-            displayModal(error);
+            displayModal(
+                "...when registration the user. Please try again later."
+            );
         }
     }
 }

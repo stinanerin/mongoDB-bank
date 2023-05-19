@@ -1,4 +1,5 @@
 import AbstractView from "./AbstractView.js";
+import { displayModal } from "../components/modal.js";
 
 export default class extends AbstractView {
     constructor() {
@@ -32,7 +33,8 @@ export default class extends AbstractView {
         } catch (error) {
             // Handle any network or server errors
             console.error("Accounts list error:", error);
-            displayModal(error);
+            displayModal();
+            return ""
         }
     }
 }

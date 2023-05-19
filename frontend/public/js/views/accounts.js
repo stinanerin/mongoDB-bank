@@ -5,8 +5,9 @@ export default class extends AbstractView {
         super();
         this.setTitle("Accounts");
     }
-    // Load html from sevrer side
+    // Load html from server side
     async getHtml() {
+        //todo! try catch
         const accArr = await fetchData("/api/accounts");
 
         if (accArr) {

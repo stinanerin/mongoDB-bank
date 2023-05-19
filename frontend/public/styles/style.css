@@ -219,9 +219,9 @@ input:-webkit-autofill:active, input[data-autocompleted] {
 
 .alert-danger {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+  flex-direction: default;
+  justify-content: default;
+  align-items: center;
   flex-wrap: no-wrap;
   background-color: hsl(355deg, 70%, 91%);
   border: 1px solid hsl(354deg, 100%, 51%);

@@ -1,5 +1,7 @@
 import AbstractView from "./AbstractView.js";
 import { navigateTo } from "../routes.js";
+import { displayAlert } from "../components/alert.js";
+import { displayModal } from "../components/modal.js";
 
 export default class extends AbstractView {
     constructor() {
@@ -34,39 +36,38 @@ export default class extends AbstractView {
             </div>`;
     }
     async addEventListeners() {
-        document.querySelector("#createAccount").addEventListener("submit", async (e) => {
-            e.preventDefault();
+        document
+            .querySelector("#createAccount")
+            .addEventListener("submit", async (e) => {
+                e.preventDefault();
 
-            try {
-                const accName = document.querySelector("#accountName").value;
-                const accAmount = document.querySelector("#accountAmount").value;
-                const res = await addData("/api/acc,ounts", {
-                    accName,
-                    accAmount,
-                });
+                try {
+                    const accName =
+                        document.querySelector("#accountName").value;
+                    const accAmount =
+                        document.querySelector("#accountAmount").value;
+                    const res = await addData("/api/accounts", {
+                        accName,
+                        accAmount,
+                    });
 
-                if(res.acknowledged) {
-                    navigateTo(location.pathname = "/accounts")
-                } else {
-                    const createAccError =
-                        document.querySelector("#createAccError");
-                    createAccError.innerHTML = ` 
-                    <div class="alert-danger" role="alert">
-                        <div class="col-auto">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-                        <div class="col">
-                            <span>${res.error ? res.error : "Something went wrong, please try again later."}</span>
-                        </div>
-                    </div>`;
+                    if (res.acknowledged) {
+                        navigateTo((location.pathname = "/accounts"));
+                    } else {
+                        const createAccError =
+                            document.querySelector("#createAccError");
+                        
+                        if (res.error) {
+                            displayAlert(createAccError, res.error);
+                        } else {
+                            throw new Error();
+                        }
+                    }
+                } catch (error) {
+                    // Handle any network or server errors
+                    console.error("Create bank account error:", error);
+                    displayModal();
                 }
-
-            } catch (error) {
-                // Handle any network or server errors
-                console.error("Create bank account error:", error);
-                displayModal(error);
-            }
-        });
+            });
     }
 }
-

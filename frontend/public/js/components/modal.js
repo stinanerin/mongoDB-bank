@@ -5,7 +5,7 @@ closeModal.addEventListener("click", () => {
     modal.close();
 });
 
-const displayModal = (error) => {
-    modal.querySelector("p").innerText = "Error: " + error;
+export const displayModal = (error) => {
+    modal.querySelector("p").innerText =  error ? error : "Please try again later. ";
     modal.showModal();
 };

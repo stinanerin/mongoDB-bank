@@ -79,7 +79,8 @@ const router = async () => {
     console.log(match);
     console.log("match.route.requiresAuth", match.route.requiresAuth);
 
-    const isAuth = await isAuthenticated();
+    const res = await isAuthenticated();
+    const isAuth = res.acknowledged;
 
     // todo! do this entire below block better!!!
     const loginLink = document.querySelector("#loginLink");

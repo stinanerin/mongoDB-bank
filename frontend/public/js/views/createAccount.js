@@ -2,6 +2,7 @@ import AbstractView from "./AbstractView.js";
 import { navigateTo } from "../routes.js";
 import { displayAlert } from "../components/alert.js";
 import { displayModal } from "../components/modal.js";
+import { isAuthenticated } from "../isAuthenticated.js";
 
 export default class extends AbstractView {
     constructor() {
@@ -46,9 +47,13 @@ export default class extends AbstractView {
                         document.querySelector("#accountName").value;
                     const accAmount =
                         document.querySelector("#accountAmount").value;
+
+                    const user = await isAuthenticated()
+                    const user_id = user.userId;
                     const res = await addData("/api/accounts", {
                         accName,
                         accAmount,
+                        user_id,
                     });
 
                     if (res.acknowledged) {

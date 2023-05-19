@@ -55,13 +55,11 @@ app.use(
 app.get("/api/user/active", (req, res) => {
     console.log("req.session", req.session);
     if (req.session.user) {
-        console.info("active user");
-        const userId = req.session.userId; // Store the user ID temporarily
-        delete req.session.userId; // Remove the user ID from the session
+        const userId = req.session.userId;
         res.json({
             acknowledged: true,
             user: req.session.user,
-            userId: userId, // Include the user ID in the JSON response
+            userId: userId,
         });
     } else {
         res.status(401).json({
@@ -76,17 +74,12 @@ app.post("/api/user/login", async (req, res) => {
         const user = await usersCollection.findOne({
             user: req.body.loginName,
         });
-        console.log(req.body);
-        console.log(req.body.loginName, req.body.loginPass);
         if (user) {
             const match = await bcrypt.compare(req.body.loginPass, user.pass);
             if (match) {
-                // sätts på req, ej res.
-                // sessionsobejktet finns ej på res
+                // Set the user as current session
                 req.session.user = user.user;
                 req.session.userId = user._id;
-
-                // svara till klienten - login namnet
 
                 res.json({
                     acknowledged: true,
@@ -172,7 +165,7 @@ app.get("/api/accounts", restrict, async (req, res) => {
 app.post("/api/accounts", restrict, async (req, res) => {
     console.log(req.body);
     try {
-        const { accName, accAmount } = req.body;
+        const { accName, accAmount, user_id } = req.body;
 
         // Manual validation
         if (isNaN(parseFloat(accAmount))) {
@@ -182,6 +175,7 @@ app.post("/api/accounts", restrict, async (req, res) => {
         const account = {
             name: accName,
             amount: parseFloat(accAmount),
+            user_id,
         };
 
         await accountCollection.insertOne(account);

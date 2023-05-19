@@ -30,9 +30,9 @@ const fetchData = async(route) => {
             console.log(res.response.statusText);
             throw new Error(res.response.statusText);
         }
-        return res.data.accounts; 
+        return res.data; 
     } catch (error) {
-        console.log(error.response.data.error);
+        return error.response.data
     }
 }
 

@@ -11,13 +11,18 @@ export default class extends AbstractView {
     async getHtml() {
         try {
 
-            const account = await fetchData(`/api/accounts/${this.id}`);
+            const data = await fetchData(`/api/accounts/${this.id}`);
 
-            if (account) {
+            if (data.accounts) {
+                const account = data.accounts;
                 const div = createElement("div");
                 const name = createElement("h2", "", account.name);
                 const accountId = createElement("p", "", `Account #${this.id}`);
-                const amount = createElement("p", "", `Amount $${account.amount}`);
+                const amount = createElement(
+                    "p",
+                    "",
+                    `Amount $${account.amount}`
+                );
                 div.append(name, accountId, amount);
                 div.innerHTML += `
                 <div>
@@ -46,9 +51,10 @@ export default class extends AbstractView {
                             <div class="btn-wrapper"><button class="btn" aria-label="Delete account">Delete</button></div>
                         </form>
                     </div>
-                </div>`
+                </div>`;
                 return div.outerHTML;
             } else {
+                console.log("no longer exists");
                 return `<p>The account no longer exists</p>`;
             }
         } catch (error) {
@@ -130,7 +136,7 @@ export default class extends AbstractView {
         } catch (error) {
             console.error("Error occurred when DEL acc :", error);
             displayModal(
-                "...when deleting account. Please try again later."
+                "...when deleting the account. Please try again later."
             );
         }
     }

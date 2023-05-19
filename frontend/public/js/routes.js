@@ -15,12 +15,11 @@ export const navigateTo = (url) => {
 };
 const isAuthenticated = async () => {
     try {
-        // todo! use fetchData
-        const res = await axios.get("/api/user/active");
-        // console.log(res);
-        return res.data.acknowledged;
+        const res = await fetchData("/api/user/active");
+        console.log(res);
+        return res.acknowledged;
     } catch (error) {
-        return error.response.data.acknowledged;
+        console.log(error);
     }
 };
 

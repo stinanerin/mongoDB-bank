@@ -9,8 +9,8 @@ export default class extends AbstractView {
     // Load html from server side
     async getHtml() {
         try {
-            const accArr = await fetchData("/api/accounts");
-
+            const data = await fetchData("/api/accounts");
+            const accArr = data.accounts
             if (accArr.length > 0) {
                 const ul = createElement("ul", "accounts-list");
                 ul.append(createElement("h2", "", "Accounts"));

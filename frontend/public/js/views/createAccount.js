@@ -40,15 +40,13 @@ export default class extends AbstractView {
             try {
                 const accName = document.querySelector("#accountName").value;
                 const accAmount = document.querySelector("#accountAmount").value;
-                const res = await addData("/api/accounts", {
+                const res = await addData("/api/acc,ounts", {
                     accName,
                     accAmount,
                 });
 
                 if(res.acknowledged) {
-                    // todo! succes creating account
                     navigateTo(location.pathname = "/accounts")
-
                 } else {
                     const createAccError =
                         document.querySelector("#createAccError");
@@ -58,18 +56,16 @@ export default class extends AbstractView {
                             <i class="fa-solid fa-triangle-exclamation"></i>
                         </div>
                         <div class="col">
-                            <span>${res.error}</span>
+                            <span>${res.error ? res.error : "Something went wrong, please try again later."}</span>
                         </div>
                     </div>`;
                 }
 
             } catch (error) {
                 // Handle any network or server errors
-                // todo! display modal?
                 console.error("Create bank account error:", error);
+                displayModal(error);
             }
-
-
         });
     }
 }

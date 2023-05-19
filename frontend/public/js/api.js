@@ -5,10 +5,8 @@ const addData = async (route, data) => {
             console.log(res.response.statusText);
             throw new Error(res.response.statusText);
         }
-        // todo? Display success?
         return res.data;
     } catch (error) {
-        // todo!
         console.error(error);
         return error.response.data
     }
@@ -21,7 +19,6 @@ const updateAccount = async(route, value) => {
         })
         return res.data
     } catch (error) {
-        // todo! Display modal?
         return error.response.data;
     }
 }
@@ -35,7 +32,6 @@ const fetchData = async(route) => {
         }
         return res.data.accounts; 
     } catch (error) {
-        // todo! Display modal?
         console.log(error.response.data.error);
     }
 }
@@ -45,7 +41,6 @@ const deleteDocument = async(route) => {
         const res = await axios.delete(route);
         return res.data
     } catch (error) {
-        // todo! Display modal?
         console.log(error);
         return error.response.data
     }

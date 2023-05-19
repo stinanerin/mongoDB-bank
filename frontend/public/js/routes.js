@@ -117,8 +117,6 @@ const router = async () => {
         console.log(match);
     }
 
-
-
     // Creates new instance of the view: importedClass - at the match route
     const currentView = new match.route.view();
     // console.log("currentView", match.route);

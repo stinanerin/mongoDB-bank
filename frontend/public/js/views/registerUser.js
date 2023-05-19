@@ -75,10 +75,8 @@ export default class extends AbstractView {
             }
         } catch (error) {
             // Handle any network or server errors
-            // todo! display modal?
             console.error("Login error:", error);
+            displayModal(error);
         }
-
-
     }
 }

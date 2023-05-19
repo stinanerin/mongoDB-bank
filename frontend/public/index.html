@@ -1,6 +1,7 @@
     <!DOCTYPE html>
     <html lang="en">
     <head>
+
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,20 +9,26 @@
 
         <!-- icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
         <!-- css -->
         <link rel="stylesheet" href="/styles/style.css"/>
+        
         <!-- axios -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
         <!-- js -->
         <script src="/js/api.js" defer></script>
         <script src="/js/helpers.js" defer></script>
         <script src="/js/logoutUser.js" defer></script>
+        <script src="/js/modal.js" defer></script>
         <!-- type module for imports -->
         <script type="module" src="/js/routes.js" defer ></script>
 
     </head>
 
+
     <body>
+
 
         <header class="header">
             <!-- data-link attribute for frontend routing -->
@@ -42,18 +49,23 @@
             </nav>
         </header>
 
+
         <main>
 
+            <dialog id="modal" >
+                <h2>Oops! Something went wrong...</h2>
+                <p id="error"></p>
+                <div class="close-modal">
+                    <button id="closeModal" class="btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </dialog>
+
             <div id="app">
-
-                <!-- View insterted from routing system -->
-
+                <!-- Current view insterted from routing system -->
             </div>
 
         </main>
 
-
-        
 
         <footer>
 

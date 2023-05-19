@@ -9,4 +9,3 @@ const displayModal = (error) => {
     modal.querySelector("p").innerText = "Error: " + error;
     modal.showModal();
 };
-displayModal("felis");

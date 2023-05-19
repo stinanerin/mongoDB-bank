@@ -46,9 +46,7 @@ export default class extends AbstractView {
                 });
 
                 if(res.acknowledged) {
-                    // todo! succes creating account
                     navigateTo(location.pathname = "/accounts")
-
                 } else {
                     const createAccError =
                         document.querySelector("#createAccError");
@@ -66,6 +64,7 @@ export default class extends AbstractView {
             } catch (error) {
                 // Handle any network or server errors
                 console.error("Create bank account error:", error);
+                displayModal(error);
             }
         });
     }

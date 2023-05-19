@@ -11,10 +11,6 @@
   font-family: AnonymousPro-Italic;
   src: url("../assets/fonts/AnonymousPro-Italic.ttf");
 }
-* {
-  outline: 1px solid pink;
-}
-
 *, *:after, *:before {
   box-sizing: border-box;
 }
@@ -67,10 +63,14 @@ main {
   padding: 0.5rem 1rem;
   font-family: AnonymousPro-Bold;
   font-size: 0.9rem;
+  text-decoration: none;
 }
 .btn:hover {
   color: hsl(0deg, 0%, 0%);
   background-color: hsl(0deg, 0%, 100%);
+}
+.btn:hover * {
+  color: hsl(0deg, 0%, 0%);
 }
 
 .btn-wrapper {

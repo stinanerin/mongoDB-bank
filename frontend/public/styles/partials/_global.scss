@@ -1,6 +1,6 @@
-* {
-    outline: 1px solid pink;
-}
+// * {
+//     outline: 1px solid pink;
+// }
 
 *, *:after, *:before {
     box-sizing: border-box;
@@ -57,9 +57,13 @@ main {
     padding: 0.5rem 1rem;
     font-family: $body-b;
     font-size: 0.9rem;
+    text-decoration: none;
     &:hover {
         color: $p-black;
         background-color: $p-white;
+        * {
+            color: $p-black;
+        }
     }
 }
 

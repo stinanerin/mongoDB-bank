@@ -7,6 +7,13 @@ export default class extends AbstractView {
         this.setTitle("Profile page");
     }
     async getHtml() {
+        try {
+            
+        } catch (error) {
+            // Handle any network or server errors
+            console.error("Account #id error:", error);
+            displayModal(error);
+        }
         const account = await fetchData(`/api/accounts/${this.id}`);
 
         if (account) {
@@ -108,6 +115,8 @@ export default class extends AbstractView {
         } catch (error) {
             // todo! modal - can something go wrong here?
             console.error("Error occurred:", error);
+            displayModal(error);
+
         }
     }
     async deleteAccount(e) {

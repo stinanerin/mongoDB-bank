@@ -50,6 +50,7 @@ export default class extends AbstractView {
 
                     const user = await isAuthenticated()
                     const user_id = user.userId;
+                    
                     const res = await addData("/api/accounts", {
                         accName,
                         accAmount,
@@ -57,7 +58,9 @@ export default class extends AbstractView {
                     });
 
                     if (res.acknowledged) {
+
                         navigateTo((location.pathname = "/accounts"));
+
                     } else {
                         const createAccError =
                             document.querySelector("#createAccError");

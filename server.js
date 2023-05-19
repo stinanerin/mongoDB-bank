@@ -51,7 +51,8 @@ app.use(
 );
 
 // ------------------- Routes -------------------
-// Users
+//! Users
+// Get active user 
 app.get("/api/user/active", (req, res) => {
     console.log("req.session", req.session);
     if (req.session.user) {
@@ -68,7 +69,8 @@ app.get("/api/user/active", (req, res) => {
         });
     }
 });
-//! Remove verb? - crash with register
+
+// Login user
 app.post("/api/user/login", async (req, res) => {
     try {
         const user = await usersCollection.findOne({
@@ -99,7 +101,8 @@ app.post("/api/user/login", async (req, res) => {
         });
     }
 });
-//! Remove verb? - crash with login
+
+// Register user
 app.post("/api/user/register", async (req, res) => {
     try {
         console.info("api register");
@@ -137,6 +140,7 @@ app.post("/api/user/register", async (req, res) => {
     }
 });
 
+// Logout user
 app.post("/api/user/logout", restrict, (req, res) => {
     req.session.destroy(() => {
         res.json({
@@ -145,7 +149,9 @@ app.post("/api/user/logout", restrict, (req, res) => {
     });
 });
 
-// Bank accounts - plural
+//! Bank accounts - plural
+
+// Get all accounts - for authenticated user
 app.get("/api/accounts", restrict, async (req, res) => {
     try {
         const response = await accountCollection.find({}).toArray();
@@ -162,6 +168,7 @@ app.get("/api/accounts", restrict, async (req, res) => {
     }
 });
 
+// Create new account - for authenticated user
 app.post("/api/accounts", restrict, async (req, res) => {
     console.log(req.body);
     try {
@@ -193,7 +200,8 @@ app.post("/api/accounts", restrict, async (req, res) => {
     }
 });
 
-// Bank account - singular
+//! Bank account - singular
+// Update amount for one bank account - authenticated 
 app.put("/api/accounts/:id/update-amount", restrict, async (req, res) => {
     try {
         // Manual check of balance
@@ -240,8 +248,10 @@ app.put("/api/accounts/:id/update-amount", restrict, async (req, res) => {
     }
 });
 
+// Get one account - authenticated 
 app.get("/api/accounts/:id", restrict, async (req, res) => {
     try {
+        //todo some check that it is the current session user?
         const response = await accountCollection.findOne({
             _id: new ObjectId(req.params.id),
         });
@@ -260,6 +270,7 @@ app.get("/api/accounts/:id", restrict, async (req, res) => {
     }
 });
 
+// Delete one account - authenticated 
 app.delete("/api/accounts/:id", restrict, async (req, res) => {
     try {
         const response = await accountCollection.deleteOne({
@@ -283,6 +294,7 @@ app.delete("/api/accounts/:id", restrict, async (req, res) => {
     }
 });
 
+// Update fields one account - authenticated 
 app.put("/api/accounts/:id/update-fields", restrict, async (req, res) => {
     /* todo!
      * Prevent user of api to create new keys
@@ -322,7 +334,7 @@ app.get("/*", (req, res) => {
      * Regardless of the path sent to the server, always serve the index.html file.
      * This is necessary for SAP integration.
      * It ensures that the same HTML file is served, even if the requested path is different.
-     * */
+     */
     res.sendFile(path.join(__dirname, "frontend", "public", "index.html"));
 });
 

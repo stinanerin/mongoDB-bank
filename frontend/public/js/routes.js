@@ -7,12 +7,12 @@ import registerUser from "./views/registerUser.js";
 import loginReq from "./views/loginReq.js";
 import pageNotFound from "./views/404.js";
 
+
 // Navigates to a specific url and updates the history
 export const navigateTo = (url) => {
     history.pushState(null, null, url);
     router();
 };
-
 const isAuthenticated = async () => {
     try {
         // todo! use fetchData

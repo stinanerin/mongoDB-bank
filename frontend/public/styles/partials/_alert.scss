@@ -1,5 +1,5 @@
 .alert-danger {
-    @include flex();
+    @include flex(default, default, center);
     background-color: $danger-50;
     border: 1px solid $danger-500;
     color: $danger-500;

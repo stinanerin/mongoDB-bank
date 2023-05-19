@@ -1,4 +1,5 @@
 import AbstractView from "./AbstractView.js";
+import { displayAlert } from "../components/alert.js";
 
 export default class extends AbstractView {
     constructor() {
@@ -96,15 +97,11 @@ export default class extends AbstractView {
             console.error("Error occurred:", error);
             const transactionError =
                 document.querySelector("#transactionError");
-            transactionError.innerHTML = ` 
-            <div class="alert-danger" role="alert">
-                <div class="col-auto">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-                <div class="col">
-                    <span>Something went wrong with the transaction. Please try again later.</span>
-                </div>
-            </div>`;
+            displayAlert(
+                transactionError,
+                "Something went wrong with the transaction. Please try again later."
+            );
+           
         }
     }
     async updateUI() {
@@ -113,10 +110,8 @@ export default class extends AbstractView {
             // Re-add event listeners after updating the UI since they are "removed" when reloading the HTML
             this.addEventListeners();
         } catch (error) {
-            // todo! modal - can something go wrong here?
             console.error("Error occurred:", error);
             displayModal(error);
-
         }
     }
     async deleteAccount(e) {
@@ -126,24 +121,18 @@ export default class extends AbstractView {
             console.log(res);
             if (res.acknowledged) {
                 // todo! Some succes msg
-                console.log("hejhej");
                 console.log(this);
                 document.querySelector("#app").innerHTML = await this.getHtml();
             } else {
                 throw new Error()
             }
         } catch (error) {
-            console.error("Error occurred:", error);
+            console.error("Error occurred when DEL acc :", error);
             const deleteAccError = document.querySelector("#deleteAccError");
-            deleteAccError.innerHTML = ` 
-            <div class="alert-danger" role="alert">
-                <div class="col-auto">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-                <div class="col">
-                    <span>Something went wrong when deleteing the account. Please try again later.</span>
-                </div>
-            </div>`;
+            displayAlert(
+                deleteAccError,
+                "Something went wrong when deleting account. Please try again later."
+            );
         }
     }
 }

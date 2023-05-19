@@ -1,4 +1,6 @@
 import AbstractView from "./AbstractView.js";
+import { displayAlert } from "../components/alert.js";
+
 
 export default class extends AbstractView {
     constructor() {
@@ -56,21 +58,12 @@ export default class extends AbstractView {
                 loginPass,
             });
             console.log("Login result: ", res.acknowledged);
-
             if (res.acknowledged) {
-                // Navigates to the route the user rpeviously visited before signing in
+                // Navigates to the route the user previously visited before signing in
                 window.history.back();
             } else {
                 const loginError = document.querySelector("#loginError");
-                loginError.innerHTML = ` 
-                <div class="alert-danger" role="alert">
-                    <div class="col-auto">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div class="col">
-                        <span>Invalid username or password.</span>
-                    </div>
-                </div>`;
+                displayAlert(loginError, "Invalid username or password.");
             }
         } catch (error) {
             // Handle any network or server errors

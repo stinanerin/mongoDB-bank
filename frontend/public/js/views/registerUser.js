@@ -1,4 +1,5 @@
 import AbstractView from "./AbstractView.js";
+import { displayAlert } from "../components/alert.js";
 
 export default class extends AbstractView {
     constructor() {
@@ -51,27 +52,18 @@ export default class extends AbstractView {
         const regPass = document.querySelector("#registerPwd").value;
 
         try {
-
             const res = await addData("/api/user/register", {
                 regName,
-                regPass
-            })
+                regPass,
+            });
 
-            console.log("Register user res: ",res);
+            console.log("Register user res: ", res);
             if (res.acknowledged) {
                 // Navigates to the route the user rpeviously visited before registering in
                 window.history.back();
             } else {
                 const registerError = document.querySelector("#registerError");
-                registerError.innerHTML = ` 
-                <div class="alert-danger" role="alert">
-                    <div class="col-auto">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div class="col">
-                        <span>${res.error}.</span>
-                    </div>
-                </div>`;
+                displayAlert(registerError, res.error);
             }
         } catch (error) {
             // Handle any network or server errors

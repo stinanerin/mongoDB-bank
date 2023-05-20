@@ -10,7 +10,6 @@ export default class extends AbstractView {
     }
     async getHtml() {
         try {
-
             const data = await fetchData(`/api/accounts/${this.id}`);
             console.log(data);
 
@@ -63,7 +62,6 @@ export default class extends AbstractView {
             console.error("Account #id fetch error:", error);
             displayModal();
         }
-
     }
     addEventListeners() {
         document
@@ -96,20 +94,22 @@ export default class extends AbstractView {
             const res = await updateAccount(
                 `/api/accounts/${this.id}/update-amount`,
                 transactionAmount
-            )
+            );
             if (res.acknowledged) {
                 await this.updateUI();
-            } else if (res.error === "Current balance of $3434 is too low for the withdrawl amount") {
+            } else if (res.customError) {
                 console.log(res);
                 displayAlert(transactionError, res.error);
             } else {
-                throw new Error()
+                throw new Error();
             }
         } catch (error) {
             console.error("Error occurred with transaction:", error);
             const transactionError =
                 document.querySelector("#transactionError");
-            displayModal("...when making the transaction. Please try again later.");           
+            displayModal(
+                "...when making the transaction. Please try again later."
+            );
         }
     }
     async updateUI() {
@@ -132,7 +132,7 @@ export default class extends AbstractView {
                 console.log(this);
                 document.querySelector("#app").innerHTML = await this.getHtml();
             } else {
-                throw new Error()
+                throw new Error();
             }
         } catch (error) {
             console.error("Error occurred when DEL acc :", error);

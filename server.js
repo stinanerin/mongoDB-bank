@@ -272,9 +272,12 @@ app.put(
             });
 
             if (account.amount + req.body.amount < 0) {
-                throw new Error(
-                    `Current balance: ${account.amount}, too low for withdrawl`
-                );
+                res.status(400).json({
+                    acknowledged: false,
+                    error: "Current balance too low for withdrawal",
+                    customError: true,
+                });
+                return;
             }
 
             const response = await accountCollection.updateOne(

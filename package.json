@@ -10,6 +10,7 @@
     "express-session": "^1.17.3",
     "hvb-console": "^0.0.1",
     "mongodb": "^5.5.0",
+    "mongoose": "^7.2.0",
     "parser": "^0.1.4"
   },
   "devDependencies": {

@@ -17,6 +17,11 @@ const PORT = 3000;
 // For encryption
 const SALT_ROUNDS = 10;
 
+// ------------------- Setup Mongoose -------------------
+import mongoose from "mongoose";
+const MONGO_URI =
+    "mongodb+srv://nerinstina:ZywaXmFMb6pm6f9T@cluster0.4g9ttnb.mongodb.net/";
+
 // ------------------- Setup SAP -------------------
 // Importing the 'path' module for file path manipulation.
 import path from "path";
@@ -25,15 +30,15 @@ const __dirname = path.resolve();
 
 // ------------------- Mongo config -------------------
 import { MongoClient, ObjectId } from "mongodb";
-// ObjectId is needed for accessing specific documents in mongoDB by ID
-const client = new MongoClient("mongodb://localhost:27017");
-await client.connect();
-const db = client.db("bank");
+// // ObjectId is needed for accessing specific documents in mongoDB by ID
+// const client = new MongoClient("mongodb://localhost:27017");
+// await client.connect();
+// const db = client.db("bank");
 
 // Accounts collection
-const accountCollection = db.collection("accounts");
+// const accountCollection = db.collection("accounts");
 // Users collection
-const usersCollection = db.collection("users");
+// const usersCollection = db.collection("users");
 
 // ------------------- Middlewares -------------------
 app.use(cookieParser());
@@ -420,11 +425,22 @@ app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "public", "index.html"));
 });
 
-// Starting the server and listening for http requests made to the specified port
-app.listen(PORT, (err) => {
-    if (err) {
-        console.error("Error when listening: #", code, err);
-        return;
-    }
-    console.log("Template is listening on port ", PORT);
-});
+// ------------------- Connect to db -------------------
+mongoose
+    .connect(MONGO_URI)
+    .then(() => {
+        // Starting the server and listening for http requests made to the specified port
+        app.listen(PORT, (err) => {
+            if (err) {
+                console.error("Error when listening: #", code, err);
+                return;
+            }
+            console.log("Template is listening on port ", PORT);
+            const accountCollection =
+                mongoose.connection.collection("accounts");
+            const usersCollection = mongoose.connection.collection("users");
+        });
+    })
+    .catch((error) => {
+        console.log(error);
+    });

@@ -61,7 +61,7 @@ export default class extends AbstractView {
             if (res.acknowledged) {
                 // Navigates to /accounts
                 navigateTo("/accounts");
-            } else if(res.error === "Invalid username or password.") {
+            } else if (res.customError) {
                 const loginError = document.querySelector("#loginError");
                 displayAlert(loginError, res.error);
             } else {

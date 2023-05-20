@@ -99,14 +99,14 @@ export default class extends AbstractView {
                 await this.updateUI();
             } else if (res.customError) {
                 console.log(res);
+                const transactionError =
+                    document.querySelector("#transactionError");
                 displayAlert(transactionError, res.error);
             } else {
                 throw new Error();
             }
         } catch (error) {
             console.error("Error occurred with transaction:", error);
-            const transactionError =
-                document.querySelector("#transactionError");
             displayModal(
                 "...when making the transaction. Please try again later."
             );

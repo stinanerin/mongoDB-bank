@@ -117,10 +117,20 @@ app.post("/api/user/login", async (req, res) => {
                     user: user.user,
                 });
             } else {
-                throw new Error("Invalid username or password.");
+                res.status(401).json({
+                    acknowledged: false,
+                    error: "Invalid username or password.",
+                    customError: true,
+                });
+                return;
             }
         } else {
-            throw new Error("Invalid username or password.");
+            res.status(401).json({
+                acknowledged: false,
+                error: "Invalid username or password.",
+                customError: true,
+            });
+            return;
         }
     } catch (err) {
         console.error(err);

@@ -1,6 +1,7 @@
 import AbstractView from "./AbstractView.js";
 import { displayAlert } from "../components/alert.js";
 import { displayModal } from "../components/modal.js";
+import { navigateTo } from "../routes.js";
 
 
 export default class extends AbstractView {
@@ -58,8 +59,8 @@ export default class extends AbstractView {
                 loginPass,
             });
             if (res.acknowledged) {
-                // Navigates to the route the user previously visited before signing in
-                window.history.back();
+                // Navigates to /accounts
+                navigateTo("/accounts");
             } else if(res.error === "Invalid username or password.") {
                 const loginError = document.querySelector("#loginError");
                 displayAlert(loginError, res.error);

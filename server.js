@@ -19,8 +19,8 @@ const SALT_ROUNDS = 10;
 
 // ------------------- Setup Mongoose -------------------
 import mongoose from "mongoose";
-const MONGO_URI =
-    "mongodb+srv://nerinstina:ZywaXmFMb6pm6f9T@cluster0.4g9ttnb.mongodb.net/";
+const MONGO_URI = process.env.MONGO_URI;
+
 
 // ------------------- Setup SAP -------------------
 // Importing the 'path' module for file path manipulation.
@@ -436,9 +436,6 @@ mongoose
                 return;
             }
             console.log("Template is listening on port ", PORT);
-            const accountCollection =
-                mongoose.connection.collection("accounts");
-            const usersCollection = mongoose.connection.collection("users");
         });
     })
     .catch((error) => {

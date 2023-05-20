@@ -10,14 +10,19 @@ export default class extends AbstractView {
     }
     async getHtml() {
         try {
+            const data = await fetchData(`/api/accounts/${this.id}`);
+            console.log(data);
 
-            const account = await fetchData(`/api/accounts/${this.id}`);
-
-            if (account) {
+            if (data.accounts) {
+                const account = data.accounts;
                 const div = createElement("div");
                 const name = createElement("h2", "", account.name);
                 const accountId = createElement("p", "", `Account #${this.id}`);
-                const amount = createElement("p", "", `Amount $${account.amount}`);
+                const amount = createElement(
+                    "p",
+                    "",
+                    `Amount $${account.amount}`
+                );
                 div.append(name, accountId, amount);
                 div.innerHTML += `
                 <div>
@@ -46,17 +51,17 @@ export default class extends AbstractView {
                             <div class="btn-wrapper"><button class="btn" aria-label="Delete account">Delete</button></div>
                         </form>
                     </div>
-                </div>`
+                </div>`;
                 return div.outerHTML;
             } else {
-                return `<p>The account no longer exists</p>`;
+                console.log("no longer exists");
+                return `<p>The account does not exist</p>`;
             }
         } catch (error) {
             // Handle any network or server errors
             console.error("Account #id fetch error:", error);
             displayModal();
         }
-
     }
     addEventListeners() {
         document
@@ -89,20 +94,22 @@ export default class extends AbstractView {
             const res = await updateAccount(
                 `/api/accounts/${this.id}/update-amount`,
                 transactionAmount
-            )
+            );
             if (res.acknowledged) {
                 await this.updateUI();
-            } else if (res.error === "Current balance of $3434 is too low for the withdrawl amount") {
+            } else if (res.customError) {
                 console.log(res);
                 displayAlert(transactionError, res.error);
             } else {
-                throw new Error()
+                throw new Error();
             }
         } catch (error) {
             console.error("Error occurred with transaction:", error);
             const transactionError =
                 document.querySelector("#transactionError");
-            displayModal("...when making the transaction. Please try again later.");           
+            displayModal(
+                "...when making the transaction. Please try again later."
+            );
         }
     }
     async updateUI() {
@@ -125,12 +132,12 @@ export default class extends AbstractView {
                 console.log(this);
                 document.querySelector("#app").innerHTML = await this.getHtml();
             } else {
-                throw new Error()
+                throw new Error();
             }
         } catch (error) {
             console.error("Error occurred when DEL acc :", error);
             displayModal(
-                "...when deleting account. Please try again later."
+                "...when deleting the account. Please try again later."
             );
         }
     }

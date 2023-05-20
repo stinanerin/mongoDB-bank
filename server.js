@@ -5,6 +5,9 @@ import console from "hvb-console";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import bcrypt from "bcrypt";
+
+// ------------------- Custom middlewares -------------------
+
 import { restrict } from "./middleware.js";
 
 // ------------------- Setup express -------------------
@@ -49,17 +52,44 @@ app.use(
         secret: "shhhh very secret string",
     })
 );
+const checkAuthorization = async (req, res, next) => {
+    try {
+        // Is current user, owner of the account they are currently trying to access
+        const account = await accountCollection.findOne({
+            _id: new ObjectId(req.params.id),
+            user_id: req.session.userId, // Check ownership
+        });
+
+        console.log("account", account);
+
+        if (account) {
+            next();
+        } else {
+            res.status(401).json({
+                acknowledged: false,
+                error: "Unauthorized",
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            acknowledged: false,
+            error: err.message,
+        });
+    }
+};
 
 // ------------------- Routes -------------------
-// Users
-
+//! Users
+// Get active user
 app.get("/api/user/active", (req, res) => {
     console.log("req.session", req.session);
     if (req.session.user) {
-        console.info("active user");
+        const userId = req.session.userId;
         res.json({
             acknowledged: true,
             user: req.session.user,
+            userId: userId,
         });
     } else {
         res.status(401).json({
@@ -68,21 +98,19 @@ app.get("/api/user/active", (req, res) => {
         });
     }
 });
-//! Remove verb? - crash with register
+
+// Login user
 app.post("/api/user/login", async (req, res) => {
     try {
         const user = await usersCollection.findOne({
             user: req.body.loginName,
         });
-        console.log(req.body);
-        console.log(req.body.loginName, req.body.loginPass);
         if (user) {
             const match = await bcrypt.compare(req.body.loginPass, user.pass);
             if (match) {
-                // sätts på req, ej res.
-                // sessionsobejktet finns ej på res
+                // Set the user as current session
                 req.session.user = user.user;
-                // svara till klienten - login namnet
+                req.session.userId = user._id;
 
                 res.json({
                     acknowledged: true,
@@ -102,7 +130,8 @@ app.post("/api/user/login", async (req, res) => {
         });
     }
 });
-//! Remove verb? - crash with login
+
+// Register user
 app.post("/api/user/register", async (req, res) => {
     try {
         console.info("api register");
@@ -122,6 +151,7 @@ app.post("/api/user/register", async (req, res) => {
             if (newUser.acknowledged) {
                 console.log(newUser);
                 req.session.user = req.body.regName;
+                req.session.userId = newUser.insertedId;
                 res.json({
                     acknowledged: true,
                     user: req.body.regName,
@@ -139,6 +169,7 @@ app.post("/api/user/register", async (req, res) => {
     }
 });
 
+// Logout user
 app.post("/api/user/logout", restrict, (req, res) => {
     req.session.destroy(() => {
         res.json({
@@ -147,10 +178,14 @@ app.post("/api/user/logout", restrict, (req, res) => {
     });
 });
 
-// Bank accounts - plural
+//! Bank accounts - plural
+
+// Get all accounts - for authenticated user
 app.get("/api/accounts", restrict, async (req, res) => {
     try {
-        const response = await accountCollection.find({}).toArray();
+        const response = await accountCollection
+            .find({ user_id: req.session.userId })
+            .toArray();
         res.json({
             acknowledged: true,
             accounts: response,
@@ -164,10 +199,11 @@ app.get("/api/accounts", restrict, async (req, res) => {
     }
 });
 
+// Create new account - for authenticated user
 app.post("/api/accounts", restrict, async (req, res) => {
     console.log(req.body);
     try {
-        const { accName, accAmount } = req.body;
+        const { accName, accAmount, user_id } = req.body;
 
         // Manual validation
         if (isNaN(parseFloat(accAmount))) {
@@ -177,6 +213,7 @@ app.post("/api/accounts", restrict, async (req, res) => {
         const account = {
             name: accName,
             amount: parseFloat(accAmount),
+            user_id,
         };
 
         await accountCollection.insertOne(account);
@@ -194,136 +231,164 @@ app.post("/api/accounts", restrict, async (req, res) => {
     }
 });
 
-// Bank account - singular
-app.put("/api/accounts/:id/update-amount", restrict, async (req, res) => {
-    try {
-        // Manual check of balance
-        const account = await accountCollection.findOne({
-            _id: new ObjectId(req.params.id),
-        });
+//! Bank account - singular
 
-        if (account.amount + req.body.amount < 0) {
-            throw new Error(
-                `Current balance: ${account.amount}, too low for withdrawl`
-            );
-        }
-
-        const response = await accountCollection.updateOne(
-            // Filter
-            { _id: new ObjectId(req.params.id) },
-            // Updated body
-            {
-                $inc: {
-                    amount: req.body.amount,
-                },
-            }
-        );
-        console.log("response before ack check", response);
-
-        if (response.acknowledged && response.modifiedCount > 0) {
-            console.info("here inside response.ack amount");
-            const updatedAccount = await accountCollection.findOne({
+// Get one account - authenticated
+app.get(
+    "/api/accounts/:id",
+    restrict,
+    checkAuthorization,
+    async (req, res) => {
+        try {
+            const response = await accountCollection.findOne({
                 _id: new ObjectId(req.params.id),
             });
+            console.info("res in get:id");
+            console.log(response);
             res.json({
                 acknowledged: true,
-                account: updatedAccount,
+                accounts: response,
             });
-        } else {
-            throw new Error("Something went wrong");
+        } catch (err) {
+            console.error(err);
+            res.status(400).json({
+                acknowledged: false,
+                error: err.message,
+            });
         }
-    } catch (err) {
-        console.error(err);
-        res.status(400).json({
-            acknowledged: false,
-            error: err.message,
-        });
     }
-});
+);
 
-app.get("/api/accounts/:id", restrict, async (req, res) => {
-    try {
-        const response = await accountCollection.findOne({
-            _id: new ObjectId(req.params.id),
-        });
-        console.info("res in get:id");
-        console.log(response);
-        res.json({
-            acknowledged: true,
-            accounts: response,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(400).json({
-            acknowledged: false,
-            error: err.message,
-        });
-    }
-});
+// Update amount for one bank account - authenticated
+app.put(
+    "/api/accounts/:id/update-amount",
+    restrict,
+    checkAuthorization,
+    async (req, res) => {
+        try {
+            // Manual check of balance
+            const account = await accountCollection.findOne({
+                _id: new ObjectId(req.params.id),
+            });
 
-app.delete("/api/accounts/:id", restrict, async (req, res) => {
-    try {
-        const response = await accountCollection.deleteOne({
-            _id: new ObjectId(req.params.id),
-        });
+            if (account.amount + req.body.amount < 0) {
+                res.status(400).json({
+                    acknowledged: false,
+                    error: "Current balance too low for withdrawal",
+                    customError: true,
+                });
+                return;
+            }
 
-        if (response.deletedCount === 0) {
-            throw new Error("No account found with the provided ID");
+            const response = await accountCollection.updateOne(
+                // Filter
+                { _id: new ObjectId(req.params.id) },
+                // Updated body
+                {
+                    $inc: {
+                        amount: req.body.amount,
+                    },
+                }
+            );
+            console.log("response before ack check", response);
+
+            if (response.acknowledged && response.modifiedCount > 0) {
+                console.info("here inside response.ack amount");
+                const updatedAccount = await accountCollection.findOne({
+                    _id: new ObjectId(req.params.id),
+                });
+                res.json({
+                    acknowledged: true,
+                    account: updatedAccount,
+                });
+            } else {
+                throw new Error("Something went wrong");
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(400).json({
+                acknowledged: false,
+                error: err.message,
+            });
         }
-
-        res.json({
-            acknowledged: true,
-            message: `Account #${req.params.id} successfully deleted`,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(400).json({
-            acknowledged: false,
-            error: err.message,
-        });
     }
-});
+);
 
-app.put("/api/accounts/:id/update-fields", restrict, async (req, res) => {
-    /* todo!
-     * Prevent user of api to create new keys
-     * Return the updated data if succesfull update?
-     */
-    try {
-        const updatedData = { $set: {} };
-        const keys = Object.keys(req.body);
+// Update fields one account - authenticated
+app.put(
+    "/api/accounts/:id/update-fields",
+    restrict,
+    checkAuthorization,
+    async (req, res) => {
+        /* todo!
+         * Prevent user of api to create new keys
+         * Return the updated data if succesfull update?
+         */
+        try {
+            const updatedData = { $set: {} };
+            const keys = Object.keys(req.body);
 
-        keys.forEach((key) => {
-            /* Go in update objects $set-key property,
+            keys.forEach((key) => {
+                /* Go in update objects $set-key property,
             set it to the value of req.body[key] */
-            updatedData.$set[key] = req.body[key];
-        });
+                updatedData.$set[key] = req.body[key];
+            });
 
-        const response = await accountCollection.updateOne(
-            { _id: new ObjectId(req.params.id) },
-            updatedData
-        );
+            const response = await accountCollection.updateOne(
+                { _id: new ObjectId(req.params.id) },
+                updatedData
+            );
 
-        if (response.acknowledged && response.modifiedCount === 0) {
-            throw new Error("No modified account data was provided.");
-        } else if (response.acknowledged && response.modifiedCount === 1) {
-            res.json(response);
+            if (response.acknowledged && response.modifiedCount === 0) {
+                throw new Error("No modified account data was provided.");
+            } else if (response.acknowledged && response.modifiedCount === 1) {
+                res.json(response);
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(400).json({
+                acknowledged: false,
+                error: err.message,
+            });
         }
-    } catch (err) {
-        console.error(err);
-        res.status(400).json({
-            acknowledged: false,
-            error: err.message,
-        });
     }
-});
+);
+
+// Delete one account - authenticated
+app.delete(
+    "/api/accounts/:id",
+    restrict,
+    checkAuthorization,
+    async (req, res) => {
+        try {
+            const response = await accountCollection.deleteOne({
+                _id: new ObjectId(req.params.id),
+            });
+
+            if (response.deletedCount === 0) {
+                throw new Error("No account found with the provided ID");
+            }
+
+            res.json({
+                acknowledged: true,
+                message: `Account #${req.params.id} successfully deleted`,
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(400).json({
+                acknowledged: false,
+                error: err.message,
+            });
+        }
+    }
+);
 
 app.get("/*", (req, res) => {
     /*
      * Regardless of the path sent to the server, always serve the index.html file.
      * This is necessary for SAP integration.
      * It ensures that the same HTML file is served, even if the requested path is different.
-     * */
+     */
     res.sendFile(path.join(__dirname, "frontend", "public", "index.html"));
 });
 

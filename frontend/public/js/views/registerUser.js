@@ -47,6 +47,7 @@ export default class extends AbstractView {
             .querySelector("#registerForm")
             .addEventListener("submit", (e) => this.registerUser(e));
     }
+    
     async registerUser(e) {
         e.preventDefault();
 

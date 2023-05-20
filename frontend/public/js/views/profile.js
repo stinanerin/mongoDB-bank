@@ -12,6 +12,7 @@ export default class extends AbstractView {
         try {
 
             const data = await fetchData(`/api/accounts/${this.id}`);
+            console.log(data);
 
             if (data.accounts) {
                 const account = data.accounts;
@@ -55,7 +56,7 @@ export default class extends AbstractView {
                 return div.outerHTML;
             } else {
                 console.log("no longer exists");
-                return `<p>The account no longer exists</p>`;
+                return `<p>The account does not exist</p>`;
             }
         } catch (error) {
             // Handle any network or server errors

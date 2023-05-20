@@ -199,12 +199,12 @@ app.post("/api/user/logout", restrict, (req, res) => {
 // Get all accounts - for authenticated user
 app.get("/api/accounts", restrict, async (req, res) => {
     try {
-        const response = await accountCollection
+        const accountsArr = await accountCollection
             .find({ user_id: req.session.userId })
             .toArray();
         res.json({
             acknowledged: true,
-            accounts: response,
+            accounts: accountsArr,
         });
     } catch (err) {
         console.error(err);
@@ -223,7 +223,12 @@ app.post("/api/accounts", restrict, async (req, res) => {
 
         // Manual validation
         if (isNaN(parseFloat(accAmount))) {
-            throw new Error("Invalid data format");
+            res.status(400).json({
+                acknowledged: false,
+                error: "Invalid data format",
+                customError: true,
+            });
+            return;
         }
 
         const account = {
@@ -250,30 +255,25 @@ app.post("/api/accounts", restrict, async (req, res) => {
 //! Bank account - singular
 
 // Get one account - authenticated
-app.get(
-    "/api/accounts/:id",
-    restrict,
-    checkAuthorization,
-    async (req, res) => {
-        try {
-            const response = await accountCollection.findOne({
-                _id: new ObjectId(req.params.id),
-            });
-            console.info("res in get:id");
-            console.log(response);
-            res.json({
-                acknowledged: true,
-                accounts: response,
-            });
-        } catch (err) {
-            console.error(err);
-            res.status(400).json({
-                acknowledged: false,
-                error: err.message,
-            });
-        }
+app.get("/api/accounts/:id", restrict, checkAuthorization, async (req, res) => {
+    try {
+        const response = await accountCollection.findOne({
+            _id: new ObjectId(req.params.id),
+        });
+        console.info("res in get:id");
+        console.log(response);
+        res.json({
+            acknowledged: true,
+            accounts: response,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(400).json({
+            acknowledged: false,
+            error: err.message,
+        });
     }
-);
+});
 
 // Update amount for one bank account - authenticated
 app.put(
@@ -330,7 +330,7 @@ app.put(
     }
 );
 
-// Update fields one account - authenticated
+// Update fields one account - authenticated - not used in bank atm but it works:)
 app.put(
     "/api/accounts/:id/update-fields",
     restrict,
@@ -339,6 +339,7 @@ app.put(
         /* todo!
          * Prevent user of api to create new keys
          * Return the updated data if succesfull update?
+         * prevent user from udpating user_id key!!! muy importante
          */
         try {
             const updatedData = { $set: {} };
@@ -356,9 +357,20 @@ app.put(
             );
 
             if (response.acknowledged && response.modifiedCount === 0) {
-                throw new Error("No modified account data was provided.");
+                res.status(400).json({
+                    acknowledged: false,
+                    error: "No modified account data was provided.",
+                    customError: true,
+                });
+                return;
             } else if (response.acknowledged && response.modifiedCount === 1) {
-                res.json(response);
+                const updatedAccount = await accountCollection.findOne({
+                    _id: new ObjectId(req.params.id),
+                });
+                res.json({
+                    acknowledged: true,
+                    account: updatedAccount,
+                });
             }
         } catch (err) {
             console.error(err);

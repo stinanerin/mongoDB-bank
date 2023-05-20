@@ -52,6 +52,7 @@ app.use(
         secret: "shhhh very secret string",
     })
 );
+// Middleware which should be moved to middleware.js soon:D -  when i work out the trouble i had with accessing the collection when importing it
 const checkAuthorization = async (req, res, next) => {
     try {
         // Is current user, owner of the account they are currently trying to access
@@ -168,7 +169,12 @@ app.post("/api/user/register", async (req, res) => {
                 });
             }
         } else {
-            throw new Error("Username already exists");
+            res.status(400).json({
+                acknowledged: false,
+                error: "Username already exists",
+                customError: true,
+            });
+            return;
         }
     } catch (err) {
         console.error(err);

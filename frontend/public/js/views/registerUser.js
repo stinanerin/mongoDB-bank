@@ -60,12 +60,15 @@ export default class extends AbstractView {
             });
 
             console.log("Register user res: ", res);
+            
             if (res.acknowledged) {
                 // Navigates to /accounts
                 navigateTo("/accounts");
-            } else {
+            } else if (res.customError) {
                 const registerError = document.querySelector("#registerError");
                 displayAlert(registerError, res.error);
+            } else {
+                throw new Error(res.error)
             }
         } catch (error) {
             // Handle any network or server errors

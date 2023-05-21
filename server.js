@@ -13,7 +13,7 @@ import { restrict } from "./middleware.js";
 // ------------------- Setup express -------------------
 import express from "express";
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 // For encryption
 const SALT_ROUNDS = 10;
 

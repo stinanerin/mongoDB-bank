@@ -19,8 +19,13 @@ const SALT_ROUNDS = 10;
 
 // ------------------- Setup Mongoose -------------------
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 const MONGO_URI = process.env.MONGO_URI;
+const client = new MongoClient(MONGO_URI);
 
+let accountCollection;
+let usersCollection;
 
 // ------------------- Setup SAP -------------------
 // Importing the 'path' module for file path manipulation.
@@ -426,9 +431,19 @@ app.get("/*", (req, res) => {
 });
 
 // ------------------- Connect to db -------------------
-mongoose
+client
     .connect(MONGO_URI)
     .then(() => {
+        console.log("Connected to MongoDB");
+
+        // Define your users and accounts collections and models here
+         const db = client.db("bank");
+         accountCollection = db.collection("accounts");
+         usersCollection = db.collection("users");
+
+
+
+        //! ------------------- Start the server -------------------
         // Starting the server and listening for http requests made to the specified port
         app.listen(PORT, (err) => {
             if (err) {
@@ -439,5 +454,5 @@ mongoose
         });
     })
     .catch((error) => {
-        console.log(error);
+        console.log("Error connecting to MongoDB:", error);
     });

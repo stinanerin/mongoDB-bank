@@ -15,7 +15,6 @@ Simple bank application built with Node.js, MongoDB, and Express.js. The applica
 * ```GET /api/user/active ``` - Get the active user.
 
 ## Getting Started
-
 ### Make sure you have the following installed:
 * Node.js
 * MongoDB
@@ -31,3 +30,12 @@ Simple bank application built with Node.js, MongoDB, and Express.js. The applica
 *  The application will be running on ```http://localhost:3000```
 
 
+## Views
+
+Login             |  Create Account
+:-------------------------:|:-------------------------:
+![](frontend/public/assets/images/login.png)  |  ![](frontend/public/assets/images/create_account.png)
+
+Login required             |  Account details
+:-------------------------:|:-------------------------:
+![](frontend/public/assets/images/login_required.png)  |  ![](frontend/public/assets/images/account_details.png)

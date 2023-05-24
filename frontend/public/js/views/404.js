@@ -9,9 +9,10 @@ export default class extends AbstractView {
         return `
             <h2>Oops</h2>
             <p>404 - Page not found</p>
-            <p>
-                <a href="/" class="btn" data-link><i class="fas fa-arrow-left"></i> To home page</a>
-            </p>
+            <a href="/" class="btn" data-link>
+                <i class="fas fa-arrow-left"></i> 
+                To home page
+            </a>
         `;
     }
 }

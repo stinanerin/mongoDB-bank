@@ -35,7 +35,7 @@ Simple bank application built with Node.js, MongoDB, and Express.js. The applica
 
 ### Run
 *  ```npx nodemon server```
-*  The application will be running on ```http://localhost:3000```
+*  The application will be running on [http://localhost:3000](http://localhost:3000)
 
 
 ## Views

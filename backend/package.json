@@ -1,7 +1,7 @@
 {
   "name": "mongodb-bank",
   "version": "1.0.0",
-  "description": "Your project description",
+  "description": "Mongodb bank",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,14 +11,12 @@
   "type": "module",
   "dependencies": {
     "bcrypt": "^5.1.0",
-    "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "hvb-console": "^0.0.1",
-    "mongodb": "^5.5.0",
-    "mongoose": "^7.2.0",
+    "mongodb": "^4.1.1",
     "parser": "^0.1.4",
     "vercel": "^30.0.0"
   },
@@ -34,12 +32,14 @@
     ],
     "routes": [
       {
-        "src": "/api/.*",
-        "dest": "server.js"
-      },
-      {
         "src": "/(.*)",
         "dest": "public/$1"
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "/api"
       }
     ]
   }

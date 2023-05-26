@@ -1,3 +1,6 @@
+
+
+
 export const restrict = (req, res, next) => {
     if (req.session.user) {
         // If user is signed in - continue
@@ -6,4 +9,6 @@ export const restrict = (req, res, next) => {
         res.status(401).send({ error: "Unauthorized" });
     }
 };
+
+
 

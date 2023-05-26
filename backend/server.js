@@ -460,3 +460,5 @@ app.listen(PORT, (err) => {
     }
     console.log("Template is listening on port ", PORT);
 });
+
+client.close();

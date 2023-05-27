@@ -15,6 +15,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  scroll-behavior: smooth;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Jost", sans-serif;
   margin: 0;
@@ -49,10 +53,25 @@ main {
   font-size: 1rem;
   text-decoration: none;
   padding: 0;
-  border-bottom: 1px solid hsl(0deg, 0%, 100%);
+  position: relative;
 }
-.link:hover {
-  border-width: 2px;
+.link::before {
+  content: "";
+  /* Hide the underline by default */
+  visibility: hidden;
+  background-color: #3c00ff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  /* Initially scale the underline to 0 width */
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+.link:hover::before, .link.active::before {
+  visibility: visible; /* Show the underline on hover and active */
+  transform: scaleX(1); /* Scale the underline to full width */
   font-family: AnonymousPro-Bold;
 }
 
@@ -112,15 +131,16 @@ input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select)
 .header {
   /* fallback for old browsers */
   background: hsl(0deg, 0%, 100%);
-  background: linear-gradient(270deg, rgba(13, 222, 58, 0.344) 0%, rgba(255, 255, 255, 0) 100%);
-  background: -webkit-linear-gradient(270deg, rgba(13, 222, 58, 0.344) 0%, rgba(255, 255, 255, 0) 100%);
-  background-color: #88A17B;
+  background: linear-gradient(270deg, rgb(0, 0, 0) 1% 0%, rgba(255, 255, 255, 0) 100%);
+  background: -webkit-linear-gradient(270deg, rgb(0, 0, 0) 1% 0%, rgba(255, 255, 255, 0) 100%);
+  background-color: #040c3a;
   padding: 0.5rem 0;
 }
 .header * {
   color: hsl(0deg, 0%, 100%);
 }
 .header .nav {
+  font-size: 0.7rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -235,7 +255,7 @@ input:-webkit-autofill:active, input[data-autocompleted] {
 }
 
 :modal {
-  background-color: #88A17B;
+  background-color: #040c3a;
   max-width: 50ch;
   padding: 3rem 2rem;
   border: 0;

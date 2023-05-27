@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+html, body {
+    scroll-behavior: smooth;
+}
+
 // text
 h1, h2, h3, h4, h5, h6 {
     font-family: $heading-primary;
@@ -39,15 +43,36 @@ main {
 }
 
 .link {
+    // -webkit-font-smoothing: antialiased;
     font-family: $body;
     font-size: 1rem;
     text-decoration: none;
     padding: 0;
-    border-bottom: 1px solid $text-contrast;
-    &:hover {
-        border-width: 2px;
-        font-family: $body-b;
+    position: relative;
+    &::before {
+        content: "";
+        /* Hide the underline by default */
+        visibility: hidden; 
+        background-color: $accent; 
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -6px;
+        height: 2px;
+        /* Initially scale the underline to 0 width */
+        transform: scaleX(0); 
+        transition: transform 0.3s ease-in-out;
     }
+    &:hover::before, &.active::before {
+       
+        visibility: visible; /* Show the underline on hover and active */
+        transform: scaleX(1); /* Scale the underline to full width */
+        font-family: $body-b;
+        // border-bottom: 2px solid $accent;
+        // margin: 10px 0 0 0;
+        
+    }
+  
 }
 
 .btn {

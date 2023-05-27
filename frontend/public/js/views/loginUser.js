@@ -2,6 +2,7 @@ import AbstractView from "./AbstractView.js";
 import { displayAlert } from "../components/alert.js";
 import { displayModal } from "../components/modal.js";
 import { navigateTo } from "../routes.js";
+import { addData } from "../api.js";
 
 
 export default class extends AbstractView {

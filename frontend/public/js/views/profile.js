@@ -15,7 +15,7 @@ export default class extends AbstractView {
 
             if (data.accounts) {
                 const account = data.accounts;
-                const div = createElement("div");
+                const div = createElement("div", "account-wrapper");
                 const name = createElement("h2", "", account.name);
                 const accountId = createElement("p", "", `Account #${this.id}`);
                 const amount = createElement(
@@ -27,7 +27,7 @@ export default class extends AbstractView {
                 div.innerHTML += `
                 <div>
                     <h3>Account options:</h3>
-                    <div>
+                    <div class="account-options">
                         <form id="transactionForm">
                             <h4>Transaction</h4>
                             <div class="form-group">

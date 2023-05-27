@@ -14,7 +14,7 @@ export default class extends AbstractView {
         return `
             <div class="form-wrapper">
 
-                <h2>Create bank account</h2>
+                <h2 class="form-heading">Create bank account</h2>
                 
                 <form action="" class="form" id="createAccount" >
 
@@ -29,9 +29,9 @@ export default class extends AbstractView {
                         <label for="accountAmount" class="form-label">Amount<sup>*</sup> </label>
                         <input class="form-control" type="number" id="accountAmount" placeholder="Enter the amount" required />
                     </div>
-
-                    <button class="btn">Create account</button>
-                    
+                    <div class="center">
+                        <button class="btn">Create account</button>
+                    </div>
                 </form>
 
             </div>`;

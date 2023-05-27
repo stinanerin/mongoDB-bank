@@ -12,8 +12,8 @@ export default class extends AbstractView {
     async getHtml() {
         return `
             <div class="form-wrapper">
+            <h2 class="form-heading">Log in</h2>
                 <form class="form" id="loginForm">
-                    <h2>Log in</h2>
                     <div class="form-group">
                         <label for="loginName" class="form-label">
                             Username<sup>*</sup>
@@ -39,7 +39,11 @@ export default class extends AbstractView {
                             required
                         />
                     </div>
-                    <button class="btn">Log in</button>
+
+                    <div class="center">
+                        <button class="btn">Log in</button>
+                    </div>
+
                 </form>
             </div>`;
     }

@@ -1,0 +1,31 @@
+
+.account-wrapper {
+    width: 100%;   
+}
+
+.account-options {
+    @media($sm) {
+        @include flex(default);
+        gap: 1rem;
+        form {
+            
+            flex-basis: 50%;
+            height: 100%;
+            @include flex(column, space-between);
+
+        }
+    }
+}
+
+.accounts-list {
+    li {
+        margin-bottom: 1em;
+        list-style-type: none;
+        padding: 1rem;
+        border-bottom: 1px solid $text;
+        font-size: $body-m;
+        &:hover {
+            background-color: $accent-50;
+        }
+    }
+}

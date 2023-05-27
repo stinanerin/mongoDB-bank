@@ -129,7 +129,7 @@ window.addEventListener("popstate", () => router());
 // Listens to DOM loads
 document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("click", (e) => {
-        // Does the link have the [data-link] attribute
+        // If the link have the [data-link] attribute
         if (e.target.matches("[data-link]")) {
             // Prevent following the link and site refresh
             e.preventDefault();

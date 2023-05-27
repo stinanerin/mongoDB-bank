@@ -1,28 +1,22 @@
 .header {
-    @include diffused-gradient(270deg, rgb(0, 0, 0) 1%, rgba(255, 255, 255, 0));
+    @include diffused-gradient(270deg, rgb(0, 0, 0), rgba(255, 255, 255, 0));
     background-color: $primary;
-    padding: 0.5rem 0;
+    padding: 1rem;
     * {
         color: $p-white;
     }
     .nav {
-        font-size: 0.7rem;
-
         @include flex(column, space-between, center);
         .header__left {
             margin-bottom: 0.5em;
         }
         .header__right {
-            @include flex(default, space-around, center);
+            @include flex(default, space-around, center, wrap);
             gap: min(10%, 10px);
             width: 100%;
             .link {
-                font-size: 0.85rem;
+                font-size: 0.9rem;
             }  
-        }
-        .link.active {
-            font-family: $body-b;
-            border-width: 2px;          
         }
     }
     @media($sm) {

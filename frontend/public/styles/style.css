@@ -15,6 +15,10 @@
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+}
+
 html, body {
   scroll-behavior: smooth;
 }
@@ -49,13 +53,14 @@ main {
 }
 
 .link {
-  font-family: AnonymousPro;
-  font-size: 1rem;
   text-decoration: none;
   padding: 0;
   position: relative;
 }
-.link::before {
+.link:not(h1) {
+  font-family: AnonymousPro;
+}
+.link:not(h1)::before {
   content: "";
   /* Hide the underline by default */
   visibility: hidden;
@@ -70,8 +75,12 @@ main {
   transition: transform 0.3s ease-in-out;
 }
 .link:hover::before, .link.active::before {
-  visibility: visible; /* Show the underline on hover and active */
-  transform: scaleX(1); /* Scale the underline to full width */
+  /* 
+      Show the underline on hover and active 
+      Scale the underline to full width
+  */
+  visibility: visible;
+  transform: scaleX(1);
   font-family: AnonymousPro-Bold;
 }
 
@@ -131,16 +140,15 @@ input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select)
 .header {
   /* fallback for old browsers */
   background: hsl(0deg, 0%, 100%);
-  background: linear-gradient(270deg, rgb(0, 0, 0) 1% 0%, rgba(255, 255, 255, 0) 100%);
-  background: -webkit-linear-gradient(270deg, rgb(0, 0, 0) 1% 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(270deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%);
+  background: -webkit-linear-gradient(270deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%);
   background-color: #040c3a;
-  padding: 0.5rem 0;
+  padding: 1rem;
 }
 .header * {
   color: hsl(0deg, 0%, 100%);
 }
 .header .nav {
-  font-size: 0.7rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -155,16 +163,12 @@ input:-webkit-autofill:active:not(select), input[data-autocompleted]:not(select)
   flex-direction: default;
   justify-content: space-around;
   align-items: center;
-  flex-wrap: no-wrap;
+  flex-wrap: wrap;
   gap: min(10%, 10px);
   width: 100%;
 }
 .header .nav .header__right .link {
-  font-size: 0.85rem;
-}
-.header .nav .link.active {
-  font-family: AnonymousPro-Bold;
-  border-width: 2px;
+  font-size: 0.9rem;
 }
 @media (width >= 576px) {
   .header {

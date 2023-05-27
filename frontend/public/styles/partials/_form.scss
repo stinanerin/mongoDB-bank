@@ -7,12 +7,15 @@
     width: 100%;
 }
 
+.form-heading {
+    margin-bottom: 2rem;
+}
 
 .form-label {
     margin-bottom: 0.5rem;
     border-bottom: 1px solid hsl(0deg, 0%, 0%);
     font-family: $body-b;
-    font-size: 0.9rem;
+    font-size: $body-m;
 }
 
 input, input:active, input:focus, 
@@ -25,9 +28,8 @@ input:-webkit-autofill:active, input[data-autocompleted] {
     border-bottom: 1px solid $text;
     outline: none;
 
-    font-size: 0.8rem;
+    font-size: $body-s;
     font-family: $body;
-
 
     transition: all 0.3s ease-in-out;
     -webkit-transition: all 0.3s ease-in-out;
@@ -46,6 +48,6 @@ input:-webkit-autofill:active, input[data-autocompleted] {
 
 .form-text {
     margin-top: 0.25rem;
-    font-size: .7em;
+    font-size: $body-xs;
     color: #838586;
 }

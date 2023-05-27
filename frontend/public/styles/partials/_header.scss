@@ -14,9 +14,7 @@
             @include flex(default, space-around, center, wrap);
             gap: min(10%, 10px);
             width: 100%;
-            .link {
-                font-size: 0.9rem;
-            }  
+            
         }
     }
     @media($sm) {
@@ -25,10 +23,7 @@
             @include flex(row, space-between, center);
             .header__right {
                 justify-content: space-between;  
-                width: 70%;
-                .link {
-                    font-size: 1rem;
-                }  
+                width: 70%; 
             }
         }
     }

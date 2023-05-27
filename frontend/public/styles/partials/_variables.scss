@@ -11,17 +11,24 @@ $xl: "width >= 1200px";
 $p-black: hsl(0, 0%, 0%);
 $p-white: hsl(0, 0%, 100%);
 
-$primary: #88A17B;
-$primary: #040c3a;
+$primary: hsl(99, 17%, 56%);
+$primary: hsl(232, 96%, 9%);
 
-$accent: #3c00ff;
+$accent: hsl(254, 100%, 50%);
+$accent-50: hsla(210, 76%, 66%, 0.186);
 
 $danger-500: hsl(354, 100%, 51%);
 $danger-50: hsl(355,70%,91%);
 
-// Text
+// --------------- Text ---------------
+// Color
 $text: $p-black;
 $text-contrast: $p-white;
+// Size
+$body-m: 0.85rem;
+$body-l: 1rem;
+$body-s: 0.75rem;
+$body-xs: 0.65rem;
 
 // -------------- Fonts --------------
 $heading-primary: 'Jost', sans-serif;

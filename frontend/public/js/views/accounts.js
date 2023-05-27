@@ -13,7 +13,7 @@ export default class extends AbstractView {
             const accArr = data.accounts
             if (accArr.length > 0) {
                 const ul = createElement("ul", "accounts-list");
-                ul.append(createElement("h2", "", "Accounts"));
+                ul.append(createElement("h2", "", "Your accounts"));
                 accArr.forEach(({ name, amount, _id }) => {
                     const li = createElement("li");
                     const a = createElement("a");

@@ -7,6 +7,7 @@ import registerUser from "./views/registerUser.js";
 import loginReq from "./views/loginReq.js";
 import pageNotFound from "./views/404.js";
 import { isAuthenticated } from "./isAuthenticated.js";
+import { addClass, removeClass, setCurrentPage } from "./helpers.js";
 
 // Navigates to a specific url and updates the history
 export const navigateTo = (url) => {

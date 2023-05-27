@@ -1,4 +1,4 @@
-const addData = async (route, data) => {
+export const addData = async (route, data) => {
     try {
         const res = await axios.post(route, data);
         if (res.status !== 200) {
@@ -12,7 +12,7 @@ const addData = async (route, data) => {
     }
 };
 
-const updateAccount = async(route, value) => {
+export const updateAccount = async(route, value) => {
     try {
         const res = await axios.put(route, {
             amount: Number(value),
@@ -23,7 +23,7 @@ const updateAccount = async(route, value) => {
     }
 }
 
-const fetchData = async(route) => {
+export const fetchData = async(route) => {
     try {
         const res = await axios.get(route);
         if (res.status !== 200) {
@@ -36,7 +36,7 @@ const fetchData = async(route) => {
     }
 }
 
-const deleteDocument = async(route) => {
+export const deleteDocument = async(route) => {
     try {
         const res = await axios.delete(route);
         return res.data

@@ -1,6 +1,9 @@
 import AbstractView from "./AbstractView.js";
 import { displayModal } from "../components/modal.js";
+import { fetchData } from "../api.js";
+import { createElement } from "../helpers.js";
 
+;
 export default class extends AbstractView {
     constructor() {
         super();

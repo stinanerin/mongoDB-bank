@@ -1,6 +1,9 @@
 import AbstractView from "./AbstractView.js";
 import { displayAlert } from "../components/alert.js";
 import { displayModal } from "../components/modal.js";
+import { updateAccount, fetchData, deleteDocument } from "../api.js";
+import { createElement, clearNumericInput } from "../helpers.js";
+
 
 export default class extends AbstractView {
     constructor() {

@@ -3,6 +3,7 @@ import { navigateTo } from "../routes.js";
 import { displayAlert } from "../components/alert.js";
 import { displayModal } from "../components/modal.js";
 import { isAuthenticated } from "../isAuthenticated.js";
+import { addData } from "../api.js";
 
 export default class extends AbstractView {
     constructor() {

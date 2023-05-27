@@ -1,4 +1,4 @@
-const createElement = (type, aClass, str) => {
+export const createElement = (type, aClass, str) => {
     let elem = document.createElement(type);
     if (aClass) {
         elem.className = aClass;
@@ -9,28 +9,28 @@ const createElement = (type, aClass, str) => {
     return elem;
 };
 
-const clearNumericInput = (id) => {
+export const clearNumericInput = (id) => {
     const elem = document.querySelector(`#${id}`);
     const elemValue = elem.value;
     const cleansedValue = elemValue.replace(/[^0-9]/g, "");
     elem.value = cleansedValue;
 };
 
-const addClass = (arr, aClass) => {
+export const addClass = (arr, aClass) => {
     arr.forEach((elem) => elem.classList.add(aClass));
 };
 
-const removeClass = (arr, aClass) => {
+export const removeClass = (arr, aClass) => {
     arr.forEach((elem) => elem.classList.remove(aClass));
 };
 
-const removeAttribute = (arr, attributeName) => {
+export const removeAttribute = (arr, attributeName) => {
     arr.forEach((element) => {
         element.removeAttribute(attributeName);
-    })
-}
+    });
+};
 
-const setCurrentPage = () => {
+export const setCurrentPage = () => {
     const currentPath = location.pathname;
     const navLinks = document.querySelectorAll("[data-link]");
 
@@ -39,10 +39,10 @@ const setCurrentPage = () => {
 
     const activeLink = [...navLinks].find(
         (link) => link.pathname === currentPath
-    )
+    );
 
     if (activeLink) {
         addClass([activeLink], "active");
         activeLink.setAttribute("aria-current", "page");
-    } 
-}
+    }
+};

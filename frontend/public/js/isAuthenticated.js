@@ -1,3 +1,6 @@
+;
+import { fetchData } from "./api.js";
+
 export const isAuthenticated = async () => {
     try {
         const res = await fetchData("/api/user/active");

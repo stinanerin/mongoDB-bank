@@ -45,6 +45,10 @@ export default class extends AbstractView {
                     </div>
 
                 </form>
+
+                 <div class="helper-wrapper"> 
+                    <p>Already a customer? <a class="link highlight" href="/login" >Sign in here</a></p>
+                </div>
             </div>`;
     }
     addEventListeners() {

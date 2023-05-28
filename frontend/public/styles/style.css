@@ -76,6 +76,10 @@ main {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 
+.helper-wrapper {
+  margin-top: 2rem;
+}
+
 .link {
   text-decoration: none;
   position: relative;
@@ -106,6 +110,10 @@ main {
   visibility: visible;
   transform: scaleX(1);
   font-family: AnonymousPro-Bold;
+}
+
+.highlight {
+  color: hsl(254deg, 100%, 50%);
 }
 
 .btn {

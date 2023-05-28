@@ -1,7 +1,5 @@
 
 * CONST_VARIABLES
-* remove verbs from server routes?
-* check logout error, somethign worng?
 
 * remove console.logs
   * server
@@ -9,11 +7,11 @@
 
 * gör så man kan ändra namn 
 
-* styling login req + 404 med space,
+* styling 404 knapp - reverse clrs,
 
 * add v1 to api
 
-
+* only make it possible to delete an account which has no money, oterhwise, urge user to make withdraw first
 
 
 // Validation

@@ -8,6 +8,16 @@ Simple bank application built with Node.js, MongoDB, and Express.js. The applica
 - Creation and management of bank accounts
 - Deposits, withdrawals, and balance updates
 - Secure password storage using bcrypt hashing
+- 
+## Views
+
+Login             |  Create bank account
+:-------------------------:|:-------------------------:
+![](frontend/public/assets/images/login.png)  |  ![](frontend/public/assets/images/create_account.png)
+
+Login required             |  Bank account details
+:-------------------------:|:-------------------------:
+![](frontend/public/assets/images/login_required.png)  |  ![](frontend/public/assets/images/account_details.png)
 
 ## API Endpoints
 
@@ -38,12 +48,3 @@ Simple bank application built with Node.js, MongoDB, and Express.js. The applica
 *  The application will be running on [http://localhost:3000](http://localhost:3000)
 
 
-## Views
-
-Login             |  Create bank account
-:-------------------------:|:-------------------------:
-![](frontend/public/assets/images/login.png)  |  ![](frontend/public/assets/images/create_account.png)
-
-Login required             |  Bank account details
-:-------------------------:|:-------------------------:
-![](frontend/public/assets/images/login_required.png)  |  ![](frontend/public/assets/images/account_details.png)
